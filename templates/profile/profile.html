@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block head_title %} Profile for {{ view.get_name }} {% endblock %}
+
+{% block extra_head %}
+	{% load compress %}
+	{% compress js %}
+	    <script src="/static/mood/scripts/entry.js"></script>
+	    <script src="/static/mood/scripts/time.js"></script>
+	{% endcompress %}
+{% endblock %}
+
+{% block content %}
+
+	<div class="content_size">
+		<div class="row-fluid">
+			<h1>{{ view.get_name }}</h1>
+		</div>
+		<div class="row-fluid">
+			<div class="col-md-12">
+				{% include "mood/entrys_panel.html" %}
+			</div>
+		</div>
+	</div>
+
+	<script>
+		window.onload = function() {
+  			number_to_symbol();
+  			$(".latest_desc").val($.trim($(".latest_desc").val()));
+  			if(today("{{ latest_day_value }}")){
+  				$(".not_today").show();
+  			}else{
+  				$(".today").show();
+  			}
+  			
+		};
+	</script>
+
+
+
+{% endblock %}
