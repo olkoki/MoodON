@@ -18,11 +18,12 @@ class Profile(models.Model):
 
 
 class MoodEntry(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     mood = models.CharField(max_length=50)
 
 class Mood(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     HAPPINESS_CHOICES = (
         (1, 'Very unhappy'),
         (2, 'Unhappy'),

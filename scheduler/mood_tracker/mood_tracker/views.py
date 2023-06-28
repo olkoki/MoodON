@@ -136,18 +136,36 @@ class CalendarView(TemplateView):
         context["calendar"] = cal
         
         context ["mood"] = Mood
-        return context
 
-    
+        
+        user = self.request.user
+
+        # Get the logged-in user's mood entries for the current month
+        mood_entries = Mood.objects.all()#.filter(user=user, event__start__year=year, event__start__month=month)
+        
+        # Create a dictionary to hold the mood entries for each day
+        print(mood_entries)
+        mood_entries_dict = {}
+        for entry in mood_entries:
+            day = entry.date.day
+            if day not in mood_entries_dict:
+                mood_entries_dict[day] = []
+
+            mood_entries_dict[day].append(entry)
+
+        context ["mood_entries_dict"] = mood_entries_dict
+        
+        return context
     
     def post(self, request, *args, **kwargs):
+        user = request.user
         date = request.POST['date']
         happiness = request.POST['happiness']
         anger = request.POST['anger']
         anxiety = request.POST['anxiety']
         energy = request.POST['energy']
         motivation = request.POST['motivation']
-        Mood.objects.create(date=date, happiness=happiness, anger=anger, anxiety=anxiety, energy=energy, motivation=motivation)
+        Mood.objects.create(user=user, date=date, happiness=happiness, anger=anger, anxiety=anxiety, energy=energy, motivation=motivation)
         print('Hi')
         return redirect(reverse_lazy('calendar', kwargs={'year': kwargs['year'], 'month': kwargs['month']}))
         

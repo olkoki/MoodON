@@ -1,0 +1,64 @@
+{% extends 'main/main.html' %}
+
+{% block content %} 
+{{ mood_entries_dict }}
+    <h1>Calendar</h1>
+    <h2>{{ year }}/{{ month }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in calendar %}
+                <tr>
+                    {% for day in week %}
+                        {% if day == 0 %}
+                            <td></td>
+                        {% else %}
+                            <td>
+                                <form method="post" action="{% url 'calendar' year=year month=month %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
+                                    <select name="happiness">
+                                        {% for choice in mood.HAPPINESS_CHOICES %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="anger">
+                                        {% for choice in mood.ANGER_CHOICES %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="anxiety">
+                                        {% for choice in mood.ANXIETY_CHOICES %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="energy">
+                                        {% for choice in mood.ENERGY_CHOICES %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="motivation">
+                                        {% for choice in mood.MOTIVATION_CHOICES %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit">Save</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('mood-calendar/', views.mood_calendar, name='mood_calendar'),
-    path('mood-calendar/add/<int:event_id>/', views.add_mood_entry, name='add_mood_entry'),
+    #path('mood-calendar/', views.mood_calendar, name='mood_calendar'),
+    #path('mood-calendar/add/<int:event_id>/', views.add_mood_entry, name='add_mood_entry'),
     path('calendar/<int:year>/<int:month>/', cal1, name='calendar'),
 ]

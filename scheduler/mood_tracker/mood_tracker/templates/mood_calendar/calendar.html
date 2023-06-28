@@ -1,6 +1,7 @@
 {% extends 'main/main.html' %}
 
-{% block content %}
+{% block content %} 
+{{ mood_entries_dict }}
     <h1>Calendar</h1>
     <h2>{{ year }}/{{ month }}</h2>
     <table>
@@ -25,7 +26,7 @@
                             <td>
                                 <form method="post" action="{% url 'calendar' year=year month=month %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="date" value="{{ day }}">
+                                    <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
                                     <select name="happiness">
                                         {% for choice in mood.HAPPINESS_CHOICES %}
                                             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
