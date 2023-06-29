@@ -1,7 +1,36 @@
+<style>
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: black;
+    margin-right: 10px;
+    margin-top: 10px;
+    float: left;
+}
+.choice-row {
+    margin: 10px;
+}
+.calendar-cell {
+  border: 1px solid #6b1280;
+  padding: 5px;
+}
+
+.day-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.day-number {
+  font-weight: bold;
+  font-size: 18px;
+}
+</style>
+
 {% extends 'main/main.html' %}
 
 {% block content %} 
-{{ mood_entries_dict }}
     <h1>Calendar</h1>
     <h2>{{ year }}/{{ month }}</h2>
     <table>
@@ -23,36 +52,64 @@
                         {% if day == 0 %}
                             <td></td>
                         {% else %}
-                            <td>
+                            <td class="calendar-cell">
                                 <form method="post" action="{% url 'calendar' year=year month=month %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
-                                    <select name="happiness">
-                                        {% for choice in mood.HAPPINESS_CHOICES %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select name="anger">
-                                        {% for choice in mood.ANGER_CHOICES %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select name="anxiety">
-                                        {% for choice in mood.ANXIETY_CHOICES %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select name="energy">
-                                        {% for choice in mood.ENERGY_CHOICES %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select name="motivation">
-                                        {% for choice in mood.MOTIVATION_CHOICES %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <button type="submit">Save</button>
+                                    <div class="day-cell">
+                                        <div class="day-number">{{ day }}</div>
+                                        <div class="menu-container">
+                                            <button type="button" class="toggle-button">Show Choices</button>
+                                            <div class="choices" style="display: none;">
+                                                <div class="choice-row">
+                                                    <div class="dot"></div>
+                                                    <select name="happiness" id="happiness">
+                                                        {% for choice in mood.HAPPINESS_CHOICES %}
+                                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <div class="dot"></div>
+                                                    <select name="anger" id="anger">
+                                                        {% for choice in mood.ANGER_CHOICES %}
+                                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <div class="dot"></div>
+                                                    <select name="anxiety" id="anxiety">
+                                                        {% for choice in mood.ANXIETY_CHOICES %}
+                                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <div class="dot"></div>
+                                                    <select name="energy" id="energy">
+                                                        {% for choice in mood.ENERGY_CHOICES %}
+                                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <div class="dot"></div>
+                                                    <select name="motivation" id="motivation">
+                                                        {% for choice in mood.MOTIVATION_CHOICES %}
+                                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <textarea name="description" id="description" placeholder="Describe what happened"></textarea>
+                                                </div>
+                                                <div class="choice-row">
+                                                    <button type="submit" class="save-button">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </td>
                         {% endif %}
@@ -61,4 +118,14 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    <script>
+        const toggleButtons = document.querySelectorAll('.toggle-button');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const choicesContainer = button.nextElementSibling;
+                choicesContainer.style.display = choicesContainer.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    </script>
 {% endblock %}
