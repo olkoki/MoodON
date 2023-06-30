@@ -165,7 +165,8 @@ class CalendarView(TemplateView):
         anxiety = request.POST['anxiety']
         energy = request.POST['energy']
         motivation = request.POST['motivation']
-        Mood.objects.create(user=user, date=date, happiness=happiness, anger=anger, anxiety=anxiety, energy=energy, motivation=motivation)
+        description = request.POST['description']
+        Mood.objects.create(user=user, date=date, happiness=happiness, anger=anger, anxiety=anxiety, energy=energy, motivation=motivation, description=description)
         print('Hi')
         return redirect(reverse_lazy('calendar', kwargs={'year': kwargs['year'], 'month': kwargs['month']}))
         

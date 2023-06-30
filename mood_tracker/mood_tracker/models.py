@@ -82,3 +82,4 @@ class Mood(models.Model):
     anxiety = models.IntegerField(choices=ANXIETY_CHOICES)
     energy = models.IntegerField(choices=ENERGY_CHOICES)
     motivation = models.IntegerField(choices=MOTIVATION_CHOICES)
+    descriptionn = models.CharField(max_length=200, default='Hello world')
