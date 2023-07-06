@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from schedule.periods import Day
 from django.views.generic import TemplateView
 from django.template import loader
+from django.contrib.auth.models import User
 
 def home(request):
     template = loader.get_template('homepage/home.html')
@@ -111,7 +112,12 @@ class ProfileView(TemplateView):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def accountSettings(request):
-    profile = request.user.profile
+    try:
+        profile = request.user.profile
+    except User.profile.RelatedObjectDoesNotExist:
+        # If the user doesn't have a profile, create a new one
+        profile = Profile(user=request.user)
+
     form = CustomerForm(instance=profile)
 
     if request.method == 'POST':
@@ -183,6 +189,7 @@ class CalendarView(TemplateView):
     template_name = 'mood_calendar/calendar.html'
 
     def get_context_data(self, **kwargs):
+        
         context = super().get_context_data(**kwargs)
         # Get the current month and year
         #now = datetime.now()
@@ -231,3 +238,7 @@ class CalendarView(TemplateView):
 def cal1(request, year, month):
     print("Good Morning")
     return CalendarView.as_view()(request=request, year=year, month=month)
+
+def cal2(request):
+    current_date = date.today()
+    return CalendarView.as_view()(request=request, year=current_date.year, month=current_date.month)

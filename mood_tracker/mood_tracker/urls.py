@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import cal1, home
+from .views import cal1, cal2, home
 
 
 urlpatterns = [
@@ -33,6 +33,7 @@ urlpatterns = [
     #path('mood-calendar/', views.mood_calendar, name='mood_calendar'),
     #path('mood-calendar/add/<int:event_id>/', views.add_mood_entry, name='add_mood_entry'),
     path('calendar/<int:year>/<int:month>/', cal1, name='calendar'),
+    path('calendar/', cal2, name='calendar'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='password_reset/password_reset.html'), name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_sent/password_reset_sent.html'), name='password_reset_done'),
