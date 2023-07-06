@@ -5,5 +5,5 @@ from django.urls import include, path
 urlpatterns = [
     # Other URL patterns for your project...
     path('admin/', admin.site.urls),
-    path('', include('mood_calendar.urls')),
+    path('', include('mood_tracker.urls')),
 ]

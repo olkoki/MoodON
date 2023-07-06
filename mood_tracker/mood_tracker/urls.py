@@ -15,16 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
 from . import views
-from .views import cal1
+from .views import cal1, home
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('', home, name='home_page'),
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
+
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('account/', views.accountSettings, name='account'),
     #path('mood-calendar/', views.mood_calendar, name='mood_calendar'),
     #path('mood-calendar/add/<int:event_id>/', views.add_mood_entry, name='add_mood_entry'),
     path('calendar/<int:year>/<int:month>/', cal1, name='calendar'),
+
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name='password_reset/password_reset.html'), name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_sent/password_reset_sent.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_form/password_reset_form.html'), name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete/password_reset_complete.html'), name='password_reset_complete'),
+
+    path("accounts/profile/", TemplateView.as_view(template_name='profile/profile.html'), name="profile"),
 ]

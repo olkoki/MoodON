@@ -1,6 +1,6 @@
 # mood_calendar/views.py
-from django.shortcuts import render, redirect
-from .forms import MoodEntryForm, CreateUserForm
+from django.shortcuts import render, redirect, HttpResponse
+from .forms import MoodEntryForm, CreateUserForm, CustomerForm
 from schedule.models import Event
 from .models import MoodEntry, Profile, Mood
 from django.contrib.auth.decorators import login_required
@@ -9,14 +9,17 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .decorators import unauthenticated_user, allowed_users
 import calendar
-from datetime import datetime
+from datetime import datetime, date
 from django.views import View
 from django.utils.safestring import mark_safe
 from django.urls import reverse_lazy
 from schedule.periods import Day
 from django.views.generic import TemplateView
-from django.http import HttpRequest
+from django.template import loader
 
+def home(request):
+    template = loader.get_template('homepage/home.html')
+    return HttpResponse(template.render())
 
 @unauthenticated_user
 def registerPage(request):    
@@ -66,6 +69,61 @@ def logoutUser(request):
 @login_required(login_url='login')
 def dashboard(request):
     return render(request, 'dashboard/dashboard.html')
+
+@login_required(login_url='login')
+class ProfileView(TemplateView):
+    template_name = 'profile/profile.html'
+    context_object_name = "user_profile"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+
+        try:
+            d = Day.objects.filter(user__id=self.request.user.id).latest('date')
+            #e = Entry.objects.filter(day__id=d.id).order_by('-created')
+            #context['latest_entryset'] = e
+            context['latest_day'] = d
+            context['latest_date'] = d.date
+            context['latest_day_value'] = d.date.day
+            return context
+        except:
+            return context
+    
+    def get_user_id(self):
+        return self.request.user.id
+
+    def get_username(self):
+       return self.request.user.get_username()
+
+    def get_name(self):
+        u = self.request.user
+        return u.get_full_name()
+
+    def get_year(self):
+        d = date.today()
+        print(type(d))
+        return d.year
+
+    def get_month(self):
+        d = date.today()
+        return d.month
+    
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def accountSettings(request):
+    profile = request.user.profile
+    form = CustomerForm(instance=profile)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'account_settings/account_settings.html', context)
+
+
+
 
 @login_required
 def mood_calendar(request):
@@ -127,10 +185,9 @@ class CalendarView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Get the current month and year
-        now = datetime.now()
-        year = now.year
-        month = now.month
-
+        #now = datetime.now()
+        year = kwargs['year']
+        month = kwargs['month']
         # Generate the calendar for the current month
         cal = calendar.monthcalendar(year, month)
         context["calendar"] = cal
