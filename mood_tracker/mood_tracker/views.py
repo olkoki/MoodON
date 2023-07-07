@@ -24,7 +24,7 @@ from django.template.defaulttags import register
 @register.filter
 def get_happiness_color(dictionary, key):
     colors = {
-        0: "",
+        0: "blue",
         1: "black",
         2: "gray",
         3: "yellow",
