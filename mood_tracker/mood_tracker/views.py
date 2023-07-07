@@ -22,7 +22,8 @@ from django.template.defaulttags import register
 ## template filter for extracting dictionary key
 ## https://fedingo.com/how-to-lookup-dictionary-value-with-key-in-django-template/
 @register.filter
-def get_happiness_color(dictionary, key):
+def get_mood_color(data, mood_type):
+    dictionary, day = data
     colors = {
         0: "",
         1: "black",
@@ -32,7 +33,12 @@ def get_happiness_color(dictionary, key):
         5: "red",
         6: "violet",
         7: "purple"}
-    return colors[dictionary.get(key)[0].happiness]
+    return colors[getattr(dictionary.get(day)[0], mood_type)]
+
+## https://stackoverflow.com/questions/420703/how-to-add-multiple-arguments-to-my-custom-template-filter-in-a-django-template
+@register.filter(name='one_more')
+def one_more(_1, _2):
+    return _1, _2
 
 def home(request):
     template = loader.get_template('homepage/home.html')
