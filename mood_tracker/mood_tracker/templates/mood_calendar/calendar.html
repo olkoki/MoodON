@@ -58,10 +58,12 @@
       <div class="title">
         Welcome to the Mood Tracker! 
         <p>How are you feeling today?</p>
+        <img src="{{ plot_month }}" />
       </div>
+      
       <div class="calendar-content">
         <h1>Mood Tracker Calendar</h1>
-        <h2>{{ year }}/{{ month }}</h2>
+        <h2 style="text-align: center;"><a href="{{ prev_link }}"> prev </a>{{ year }}/{{ month }}<a href="{{ next_link }}"> next </a></h2>
         <table>
           <thead>
             <tr>

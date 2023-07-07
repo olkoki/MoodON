@@ -19,6 +19,11 @@ from django.template import loader
 from django.contrib.auth.models import User
 from django.template.defaulttags import register
 
+import seaborn as sns
+import pandas as pd
+import io
+import base64
+
 ## template filter for extracting dictionary key
 ## https://fedingo.com/how-to-lookup-dictionary-value-with-key-in-django-template/
 @register.filter
@@ -222,17 +227,34 @@ class CalendarView(TemplateView):
         #now = datetime.now()
         year = kwargs['year']
         month = kwargs['month']
+        
+        prev_month = month - 1
+        prev_year = year
+        if prev_month == 0:
+            prev_month = 12
+            prev_year = prev_year - 1
+        
+        next_month = month + 1
+        next_year = year
+        if next_month == 13:
+            next_month = 1
+            next_year = next_year + 1
+
         # Generate the calendar for the current month
         cal = calendar.monthcalendar(year, month)
+        user = self.request.user
+
         context["calendar"] = cal
         
         context ["mood"] = Mood
 
-        
-        user = self.request.user
+        context ["prev_link"] = f"/calendar/{prev_year}/{prev_month}"
+        context ["next_link"] = f"/calendar/{next_year}/{next_month}"
+        context ["plot_month"] = plot_month(year, month, user)
 
+        
         # Get the logged-in user's mood entries for the current month
-        mood_entries = Mood.objects.all()#.filter(user=user, event__start__year=year, event__start__month=month)
+        mood_entries = Mood.objects.filter(user=user, date__year=year, date__month=month)
         
         # Create a dictionary to hold the mood entries for each day
         print(mood_entries)
@@ -269,3 +291,14 @@ def cal1(request, year, month):
 def cal2(request):
     current_date = date.today()
     return CalendarView.as_view()(request=request, year=current_date.year, month=current_date.month)
+
+def plot_month(year, month, user):
+    mood_entries = Mood.objects.filter(user=user, date__year=year, date__month=month)
+    data = pd.DataFrame(mood_entries.values())
+    print(data)
+    plot = sns.lineplot(data=data, x="date", y="happiness")
+    print(plot)
+    img = io.BytesIO()
+    plot.figure.savefig(img, format='png', bbox_inches='tight')
+    img.seek(0)
+    return "data:image/png;base64, {}".format(base64.b64encode(img.getvalue()).decode('utf-8'))
