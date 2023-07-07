@@ -86,7 +86,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
                         <div class="day-cell" {% if day in mood_entries_dict %}
-							 style="background-color: {{ mood_entries_dict|get_happiness_color:day }}"
+							 style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"
 							 {% endif %} >
                           <div class="day-number">{{ day }}</div>
                           {% if day in mood_entries_dict %}
