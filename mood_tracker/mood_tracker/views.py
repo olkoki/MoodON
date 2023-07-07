@@ -40,6 +40,11 @@ def get_mood_color(data, mood_type):
 def one_more(_1, _2):
     return _1, _2
 
+@register.filter
+def get_description(data, day):
+    return data.get(day)[0].description
+
+
 def home(request):
     template = loader.get_template('homepage/home.html')
     return HttpResponse(template.render())
