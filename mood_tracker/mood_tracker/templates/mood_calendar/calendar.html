@@ -95,34 +95,28 @@
                                 <div class="choices" style="display: none;">
                                   <div class="choice-row">
                                     <div name="anger" id="anger">
-                                        <div>{{ mood_entries_dict|get_happiness_color:day }}</div>
+                                        <div>{{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}</div>
                                     </div>
                                   </div>
                                   <div class="choice-row">
                                     <div name="anxiety" id="anxiety">
-                                      <div>{{ mood_entries_dict|get_happiness_color:day }}</div>
+                                      <div>{{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}</div>
                                     </div>
                                   </div>
                                   <div class="choice-row">
                                     <div name="energy" id="energy">
-                                      <div>{{ mood_entries_dict|get_happiness_color:day }}</div>
+                                      <div>{{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}</div>
                                     </div>
                                   </div>
                                   <div class="choice-row">
-                                    <div class="dot"></div>
-                                    <select name="motivation" id="motivation">
-                                      {% for choice in mood.MOTIVATION_CHOICES %}
-                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                      {% endfor %}
-                                    </select>
+                                    <div name="motivation" id="motivation">
+                                      <div>{{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}</div>
+                                    </div>
                                   </div>
                                   <div class="choice-row">
-                                    <textarea name="description" id="description" placeholder="What made you feel that way today?"></textarea>
+                                    <p> {{ mood_entries_dict|get_description:day }}</p>
                                   </div>
-                                  <div class="choice-row">
-                                    <button type="submit" class="save-button">Submit</button>
-                                  </div>
-                                
+                                  
                           {% else %}
                           <div class="menu-container">
                             <button type="button" class="toggle-button">Save your mood</button>
