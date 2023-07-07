@@ -17,6 +17,22 @@ from schedule.periods import Day
 from django.views.generic import TemplateView
 from django.template import loader
 from django.contrib.auth.models import User
+from django.template.defaulttags import register
+
+## template filter for extracting dictionary key
+## https://fedingo.com/how-to-lookup-dictionary-value-with-key-in-django-template/
+@register.filter
+def get_happiness_color(dictionary, key):
+    colors = {
+        0: "",
+        1: "black",
+        2: "gray",
+        3: "yellow",
+        4: "orange",
+        5: "red",
+        6: "violet",
+        7: "purple"}
+    return colors[dictionary.get(key)[0].happiness]
 
 def home(request):
     template = loader.get_template('homepage/home.html')

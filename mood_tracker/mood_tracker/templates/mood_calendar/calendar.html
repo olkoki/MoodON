@@ -42,7 +42,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background-color: #56c6b5;
+      background-color: lightgray;
     }
   
     .day-number {
@@ -85,7 +85,9 @@
                       <form method="post" action="{% url 'calendar' year=year month=month %}">
                         {% csrf_token %}
                         <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
-                        <div class="day-cell">
+                        <div class="day-cell" {% if day in mood_entries_dict %}
+							 style="background-color: {{ mood_entries_dict|get_happiness_color:day }}"
+							 {% endif %} >
                           <div class="day-number">{{ day }}</div>
                           <div class="menu-container">
                             <button type="button" class="toggle-button">Save your mood</button>
