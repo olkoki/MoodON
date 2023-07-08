@@ -30,15 +30,17 @@ import base64
 def get_mood_color(data, mood_type):
     dictionary, day = data
     colors = {
-        0: "blue",
-        1: "black",
-        2: "gray",
-        3: "yellow",
-        4: "orange",
-        5: "red",
-        6: "violet",
-        7: "purple"}
+        0: "#E6E6FA",
+        1: "#D8BFD8",
+        2: "#CDB4DB",
+        3: "#B07AC4",
+        4: "#A74AC7",
+        5: "#6E366A",
+        6: "#4D2254",
+        7: "#3C1842",
+        }
     return colors[getattr(dictionary.get(day)[0], mood_type)]
+
 
 ## https://stackoverflow.com/questions/420703/how-to-add-multiple-arguments-to-my-custom-template-filter-in-a-django-template
 @register.filter(name='one_more')
@@ -49,6 +51,20 @@ def one_more(_1, _2):
 def get_description(data, day):
     return data.get(day)[0].description
 
+@register.filter
+def get_mood_name(data, mood_type):
+    dictionary, day = data
+    names = {
+        0: 'None',
+        1: 'Very low',
+        2: 'Low',
+        3: 'Moderate',
+        4: 'Medium',
+        5: 'High',
+        6: 'Very high',
+        7: 'Extreme',
+        }
+    return names[getattr(dictionary.get(day)[0], mood_type)]
 
 def home(request):
     template = loader.get_template('homepage/home.html')
@@ -160,63 +176,6 @@ def accountSettings(request):
     context = {'form': form}
     return render(request, 'account_settings/account_settings.html', context)
 
-
-
-
-@login_required
-def mood_calendar(request):
-    user = request.user
-
-    # Get the current month and year
-    now = datetime.now()
-    year = now.year
-    month = now.month
-
-    # Generate the calendar for the current month
-    cal = calendar.monthcalendar(year, month)
-
-    # Get the logged-in user's mood entries for the current month
-    mood_entries = MoodEntry.objects.filter(user=user, event__start__year=year, event__start__month=month)
-
-    # Create a dictionary to hold the mood entries for each day
-    mood_entries_dict = {}
-    for entry in mood_entries:
-        day = entry.event.start.day
-        if day not in mood_entries_dict:
-            mood_entries_dict[day] = []
-
-        mood_entries_dict[day].append(entry)
-
-    context = {
-        'year': year,
-        'month': month,
-        'cal': cal,
-        'mood_entries_dict': mood_entries_dict,
-    }
-    print(context)
-    return render(request, 'mood_calendar/calendar.html', context)
-
-@login_required
-def add_mood_entry(request, event_id):
-    event = Event.objects.get(pk=event_id)
-
-    if request.method == 'POST':
-        form = MoodEntryForm(request.POST)
-        if form.is_valid():
-            mood_entry = form.save(commit=False)
-            mood_entry.user = request.user
-            mood_entry.event = event
-            mood_entry.save()
-            return redirect('mood_calendar')
-    else:
-        form = MoodEntryForm()
-
-    context = {
-        'form': form,
-        'event': event,
-    }
-    return render(request, 'mood_calendar/add_mood_entry.html', context)
-
 class CalendarView(TemplateView):
     template_name = 'mood_calendar/calendar.html'
 
@@ -282,8 +241,8 @@ class CalendarView(TemplateView):
         Mood.objects.create(user=user, date=date, happiness=happiness, anger=anger, anxiety=anxiety, energy=energy, motivation=motivation, description=description)
         print('Hi')
         return redirect(reverse_lazy('calendar', kwargs={'year': kwargs['year'], 'month': kwargs['month']}))
-        
     print('Hello World')
+    
 def cal1(request, year, month):
     print("Good Morning")
     return CalendarView.as_view()(request=request, year=year, month=month)
