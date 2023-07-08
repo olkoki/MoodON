@@ -1,209 +1,419 @@
 <style>
-    .calendar-container {
-      display: flex;
-    }
-  
-    .title {
-      flex: 1;
-      padding-right: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 30px;
-      text-align: center;
-    }
-  
-    .calendar-content {
-      flex: 1;
-      margin-top: 20px;
-      margin-right: 20px;
-      background: radial-gradient(circle, rgba(167,163,234,1) 70%, rgba(93,86,198,1) 100%);
-    }
-  
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: black;
-      margin-right: 10px;
-      margin-top: 10px;
-      float: left;
-    }
+  .calendar-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -47%) scale(70%);
+}
 
-    .square {
-      width: 10px;
-      height: 10px;
-      margin-right: 10px;
-      margin-top: 10px;
-      float: inline-start;
-    }
-  
-    .choice-row {
-      margin: 10px;
-    }
-  
-    .calendar-cell {
-      border: 3px solid #5d56c6;
-      padding: 5px;
-    }
-  
-    .day-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background-color: lightgray;
-    }
-  
-    .day-number {
-      font-weight: bold;
-      font-size: 18px;
-    }
-  </style>
-  
-  {% extends 'main/main.html' %}
-  
-  {% block content %} 
-    <div class="calendar-container">
-      <div class="title">
-        Welcome to the Mood Tracker! 
-        <p>How are you feeling today?</p>
-        <img src="{{ plot_month }}" />
-      </div>
-      
-      <div class="calendar-content">
-        <h1>Mood Tracker Calendar</h1>
-        <h2 style="text-align: center;"><a href="{{ prev_link }}"> prev </a>{{ year }}/{{ month }}<a href="{{ next_link }}"> next </a></h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-              <th>Sun</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for week in calendar %}
-              <tr>
-                {% for day in week %}
-                  {% if day == 0 %}
-                    <td></td>
-                  {% else %}
-                    <td class="calendar-cell">
-                      <form method="post" action="{% url 'calendar' year=year month=month %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
-                        <div class="day-cell" {% if day in mood_entries_dict %}
-							 style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"
-							 {% endif %} >
-                          <div class="day-number">{{ day }}</div>
-                          {% if day in mood_entries_dict %}
-                          <div class="menu-container">
-                            <button type="button" class="toggle-button">Your mood</button>
-                                <div class="choices" style="display: none;">
-                                  <div class="choice-row">
-                                    <div class="square" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"></div>
-                                    <div name="anger" id="anger">
-                                        <div > {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
-                                    </div>
-                                  </div>
-                                  <div class="choice-row">
-                                    <div class="square" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"></div>
-                                    <div name="anxiety" id="anxiety">
-                                        <div > {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }} </div>
-                                    </div>
-                                  </div>
-                                  <div class="choice-row">
-                                    <div class="square" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"></div>
-                                    <div name="energy" id="energy">
-                                        <div > {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }} </div>
-                                    </div>
-                                  </div>
-                                  <div class="choice-row">
-                                    <div class="square" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"></div>
-                                    <div name="motivation" id="motivation">
-                                        <div > {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }} </div>
-                                    </div>
-                                  </div>
-                                  <div class="choice-row">
-                                    <p> {{ mood_entries_dict|get_description:day }}</p>
-                                  </div>                                
-                                  
-                          {% else %}
-                          <div class="menu-container">
-                            <button type="button" class="toggle-button">Save your mood</button>
-                            <div class="choices" style="display: none;">
-                              <div class="choice-row">
-                                <div class="dot"></div>
-                                <select name="happiness" id="happiness">
-                                  {% for choice in mood.HAPPINESS_CHOICES %}
-                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                              <div class="choice-row">
-                                <div class="dot"></div>
-                                <select name="anger" id="anger">
-                                  {% for choice in mood.ANGER_CHOICES %}
-                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                              <div class="choice-row">
-                                <div class="dot"></div>
-                                <select name="anxiety" id="anxiety">
-                                  {% for choice in mood.ANXIETY_CHOICES %}
-                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                              <div class="choice-row">
-                                <div class="dot"></div>
-                                <select name="energy" id="energy">
-                                  {% for choice in mood.ENERGY_CHOICES %}
-                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                              <div class="choice-row">
-                                <div class="dot"></div>
-                                <select name="motivation" id="motivation">
-                                  {% for choice in mood.MOTIVATION_CHOICES %}
-                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                              <div class="choice-row">
-                                <textarea name="description" id="description" placeholder="What made you feel that way today?"></textarea>
-                              </div>
-                              <div class="choice-row">
-                                <button type="submit" class="save-button">Submit</button>
-                              </div>
-                            </div>
-                          </div>
-                          {% endif %}
-                        </div>
-                      </form>
-                    </td>
-                  {% endif %}
-                {% endfor %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+  .title {
+    flex: 1;
+    padding-right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 30px;
+    text-align: left;
+  }
+
+  .calendar-title {
+    text-align: center;
+  }
+
+  .calendar-content {
+    flex: 1;
+    margin-top: 20px;
+    margin-right: 20px;
+    background: #ccdcff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 5px solid #9a99f2;
+    margin-right: 10px;
+    margin-top: 10px;
+    float: left;
+  }
+
+  .square {
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+    margin-top: 10px;
+    float: left;
+    border: 2px solid #9a99f2;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .choice-row {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .calendar-cell {
+    border: 3px solid #9a99f2;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    width:120px;
+    height: 100px;
+  }
+
+  .day-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #e5eeff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 120px;
+    height: 100px;
+  }
+
+  .day-number {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .toggle-button {
+    background-color: #9a99f2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .toggle-button:hover {
+    background-color: #8b79d9;
+  }
+
+  .toggle-button-saved {
+    background-color: #dec0f1;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .choices {
+    display: none;
+  }
+
+  .choice-row .description-textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .choice-row .description-textarea::placeholder {
+    color: #999999;
+  }
+
+  .choice-row .description-textarea:focus {
+    outline: none;
+    border-color: #9a99f2;
+    box-shadow: 0px 2px 8px rgba(154, 153, 242, 0.3);
+  }
+
+  .save-button {
+    display: flex;
+    background-color: #fc95a8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-items: center;
+  }
+
+  .save-button:hover {
+    background-color: #ff5376;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .mood-name {
+    display: flex;
+    width: 250px;
+    height: 43px;
+    padding: 14px 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: justify; /* Wyjustuj tekst */
+    text-indent: 1em;
+    flex-shrink: 0;
+    border-radius: 100px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+
+  .mood-name > :first-child {
+    text-indent: 0; /* Anuluj wcięcie pierwszego słowa */
+  }
+
+  .menu-mood {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .menu-mood .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #000000;
+  }
+
+  .menu-mood select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333333;
+    font-size: 14px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .menu-mood select:hover {
+    background-color: #ebebeb;
+  }
+
+  .menu-mood select:focus {
+    outline: none;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .menu-mood select option {
+    padding: 8px;
+  }
+
+  .menu-mood select::placeholder {
+    color: #999999;
+  }
+
+  /* Styl dla ikony strzałki */
+  .menu-mood select::-ms-expand {
+    display: none;
+  }
+
+  .menu-mood select::after {
+    content: '\25BC';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #666666;
+  }
+
+  .select-field option {
+    background-color: #fff;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .select-field option:hover {
+    background-color: #9a99f2;
+    color: #fff;
+  }
+
+  .select-field option:checked {
+    background-color: #9a99f2;
+    color: #fff;
+  }
+</style>
+
+{% extends 'main/main.html' %}
+
+{% block content %}
+<div class="title">
+  <h1>Welcome to the Mood Tracker!</h1>
+  <p>How are you feeling today?</p>
+  <img src="{{ plot_month }}" alt="Mood Tracker" />
+</div>
+<div class="calendar-container">
+  <div class="calendar-content">
+    <div class="calendar-title">
+      <h2>Mood Tracker Calendar</h2>
+      <h3><a href="{{ prev_link }}">Previous</a> {{ year }}/{{ month }} <a href="{{ next_link }}">Next</a></h3>
     </div>
-  
-    <script>
-      const toggleButtons = document.querySelectorAll('.toggle-button');
+    <table>
+      <thead>
+        <tr>
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+          <th>Sun</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for week in calendar %}
+        <tr>
+          {% for day in week %}
+          {% if day == 0 %}
+          <td></td>
+          {% else %}
+          <td class="calendar-cell">
+            <form method="post" action="{% url 'calendar' year=year month=month %}">
+              {% csrf_token %}
+              <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
+              <div class="day-cell" {% if day in mood_entries_dict %}
+                style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"
+                {% endif %}>
+                <div class="day-number">{{ day }}</div>
+                {% if day in mood_entries_dict %}
+                <div class="menu-container">
+                  <button type="button" class="toggle-button-saved">Your mood</button>
+                  <div class="choices">
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"> Happiness: {{ mood_entries_dict|one_more:day|get_mood_name:'happiness' }} </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"> Anger: {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"> Anxiety: {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }}</div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"> Energy: {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }}</div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"> Motivation: {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }}</div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="mood-name" style="background-color: #ccdcff;">{{ mood_entries_dict|get_description:day }}</div>
+                    </div>
+                  </div>
+                </div>
+                {% else %}
+                <div class="menu-container">
+                  <button type="button" class="toggle-button">How are you today?</button>
+                  <div class="choices">
+                    <div class="choice-row">
+                      <div class="menu-mood"> 
+                        <div class="dot"></div>
+                        <select name="happiness" id="happiness">
+                          {% for choice in mood.HAPPINESS_CHOICES %}
+                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="menu-mood">
+                        <div class="dot"></div>
+                        <select name="anger" id="anger">
+                          {% for choice in mood.ANGER_CHOICES %}
+                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="menu-mood">
+                        <div class="dot"></div>
+                        <select name="anxiety" id="anxiety">
+                          {% for choice in mood.ANXIETY_CHOICES %}
+                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="menu-mood">
+                        <div class="dot"></div>
+                        <select name="energy" id="energy">
+                          {% for choice in mood.ENERGY_CHOICES %}
+                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="choice-row">
+                      <div class="menu-mood">
+                        <div class="dot"></div>
+                        <select name="motivation" id="motivation">
+                          {% for choice in mood.MOTIVATION_CHOICES %}
+                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="choice-row">
+                      <textarea class="description-textarea" name="description" id="description" placeholder="What made you feel that way today?"></textarea>
+                    </div>
+                    <div class="choice-row">
+                      <button type="submit" class="save-button">Save</button>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </form>
+          </td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const toggleButtons = document.querySelectorAll('.toggle-button');
       toggleButtons.forEach(button => {
         button.addEventListener('click', () => {
           const choicesContainer = button.nextElementSibling;
           choicesContainer.style.display = choicesContainer.style.display === 'none' ? 'block' : 'none';
         });
       });
-    </script>
-  {% endblock %}
   
+  const toggleButtonsSaved = document.querySelectorAll('.toggle-button-saved');
+      toggleButtonsSaved.forEach(button => {
+        button.addEventListener('click', () => {
+          const choicesContainer = button.nextElementSibling;
+          choicesContainer.style.display = choicesContainer.style.display === 'none' ? 'block' : 'none';
+        });
+      });
+
+
+  const dayCells = document.querySelectorAll('.day-cell');
+  dayCells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const choicesContainer = cell.querySelector('.choices');
+      choicesContainer.classList.toggle('hidden'); // Toggle the 'hidden' class
+    });
+  });
+</script>
+
+
+{% endblock %}
+
+

@@ -31,13 +31,13 @@ def get_mood_color(data, mood_type):
     dictionary, day = data
     colors = {
         0: "#E6E6FA",
-        1: "#D8BFD8",
-        2: "#CDB4DB",
-        3: "#B07AC4",
-        4: "#A74AC7",
-        5: "#6E366A",
-        6: "#4D2254",
-        7: "#3C1842",
+        1: "#b6e2dd",
+        2: "#c8ddbb",
+        3: "#e9e5af",
+        4: "#fbdf9d",
+        5: "#fbc99d",
+        6: "#fbb39d",
+        7: "#fba09d",
         }
     return colors[getattr(dictionary.get(day)[0], mood_type)]
 
