@@ -209,7 +209,11 @@ class CalendarView(TemplateView):
 
         context ["prev_link"] = f"/calendar/{prev_year}/{prev_month}"
         context ["next_link"] = f"/calendar/{next_year}/{next_month}"
-        context ["plot_month"] = plot_month(year, month, user)
+        context ["plot_month_happiness"] = plot_month(year, month, user, "happiness")
+        context ["plot_month_anger"] = plot_month(year, month, user, "anger")
+        context ["plot_month_anxiety"] = plot_month(year, month, user, "anxiety")
+        context ["plot_month_energy"] = plot_month(year, month, user, "energy")
+        context ["plot_month_motivation"] = plot_month(year, month, user, "motivation")
 
         
         # Get the logged-in user's mood entries for the current month
@@ -251,13 +255,14 @@ def cal2(request):
     current_date = date.today()
     return CalendarView.as_view()(request=request, year=current_date.year, month=current_date.month)
 
-def plot_month(year, month, user):
+def plot_month(year, month, user, mood_name):
     mood_entries = Mood.objects.filter(user=user, date__year=year, date__month=month)
     data = pd.DataFrame(mood_entries.values())
     print(data)
-    plot = sns.lineplot(data=data, x="date", y="happiness")
+    plot = sns.lineplot(data=data, x="date", y=mood_name)
     print(plot)
     img = io.BytesIO()
     plot.figure.savefig(img, format='png', bbox_inches='tight')
     img.seek(0)
+    plot.figure.clf()
     return "data:image/png;base64, {}".format(base64.b64encode(img.getvalue()).decode('utf-8'))
