@@ -1,9 +1,9 @@
 <style>
   .calendar-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-20%, -50%) scale(72%);
+    position:relative;
+    height: 100%;
+    width: 100%;
+    transform:  scale(75%);
 }
   .title {
     flex: 1;
@@ -243,220 +243,270 @@
     background-color: #9a99f2;
     color: #fff;
   }
+
+  /* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  margin-top: 56px;
+  background-color: #9a99f2;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  margin-top: 56px;
+  background-color: #ccdcff;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the image inside the centered container, if needed 
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+} */
+
+.card {
+  justify-content: center;
+}
 </style>
-
 {% extends 'main/main.html' %}
-
 {% block content %}
-<div class="title">
-  <h1>Welcome to the Mood Tracker!</h1>
-  <p>How are you feeling today?</p>
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Happiness stats
-          </button>
-        </h5>
-      </div>
-  
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <img src="{{ plot_month_happiness }}" alt="Happiness" />
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingTwo">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Anger stats
-          </button>
-        </h5>
-      </div>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-        <div class="card-body">
-          <img src="{{ plot_month_anger }}" alt="Anger" />
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingThree">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Anxiety stats
-          </button>
-        </h5>
-      </div>
-      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-        <div class="card-body">
-          <img src="{{ plot_month_anxiety }}" alt="Anxiety" />
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingFour">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-            Energy stats
-          </button>
-        </h5>
-      </div>
-      <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-        <div class="card-body">
-          <img src="{{ plot_month_energy }}" alt="Energy" />
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingFive">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-            Motivation stats
-          </button>
-        </h5>
-      </div>
-      <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-        <div class="card-body">
-          <img src="{{ plot_month_motivation }}" alt="Motivation" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="calendar-container">
-  <div class="calendar-content">
-    <div class="calendar-title">
-      <h2>Mood Tracker Calendar</h2>
-      <h3><a href="{{ prev_link }}">Previous</a> {{ year }}/{{ month }} <a href="{{ next_link }}">Next</a></h3>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Mon</th>
-          <th>Tue</th>
-          <th>Wed</th>
-          <th>Thu</th>
-          <th>Fri</th>
-          <th>Sat</th>
-          <th>Sun</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for week in calendar %}
-        <tr>
-          {% for day in week %}
-          {% if day == 0 %}
-          <td></td>
-          {% else %}
-          <td class="calendar-cell">
-            <form method="post" action="{% url 'calendar' year=year month=month %}">
-              {% csrf_token %}
-              <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
-              <div class="day-cell" {% if day in mood_entries_dict %}
-                style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"
-                {% endif %}>
-                <div class="day-number">{{ day }}</div>
-                {% if day in mood_entries_dict %}
-                <div class="menu-container">
-                  <button type="button" class="toggle-button-saved">Your mood</button>
-                  <div class="choices">
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"> Happiness: {{ mood_entries_dict|one_more:day|get_mood_name:'happiness' }} </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"> Anger: {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"> Anxiety: {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }}</div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"> Energy: {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }}</div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"> Motivation: {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }}</div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="mood-name" style="background-color: #ccdcff;">{{ mood_entries_dict|get_description:day }}</div>
-                    </div>
-                  </div>
-                </div>
-                {% else %}
-                <div class="menu-container">
-                  <button type="button" class="toggle-button">Your mood</button>
-                  <div class="choices">
-                    <div class="choice-row">
-                      <div class="menu-mood"> 
-                        <div class="dot"></div>
-                        <select name="happiness" id="happiness">
-                          {% for choice in mood.HAPPINESS_CHOICES %}
-                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="menu-mood">
-                        <div class="dot"></div>
-                        <select name="anger" id="anger">
-                          {% for choice in mood.ANGER_CHOICES %}
-                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="menu-mood">
-                        <div class="dot"></div>
-                        <select name="anxiety" id="anxiety">
-                          {% for choice in mood.ANXIETY_CHOICES %}
-                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="menu-mood">
-                        <div class="dot"></div>
-                        <select name="energy" id="energy">
-                          {% for choice in mood.ENERGY_CHOICES %}
-                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="choice-row">
-                      <div class="menu-mood">
-                        <div class="dot"></div>
-                        <select name="motivation" id="motivation">
-                          {% for choice in mood.MOTIVATION_CHOICES %}
-                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="choice-row">
-                      <textarea class="description-textarea" name="description" id="description" placeholder="What made you feel that way today?"></textarea>
-                    </div>
-                    <div class="choice-row">
-                      <button type="submit" class="save-button">Save</button>
-                    </div>
-                  </div>
-                </div>
-                {% endif %}
-              </div>
-            </form>
-          </td>
-          {% endif %}
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
 
+<div class="split left">
+  <div class="centered">
+    <div class="title">
+      <h1>Welcome to the Mood Tracker!</h1>
+      <p>How are you feeling today?</p>
+      <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Happiness stats
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <img src="{{ plot_month_happiness }}" alt="Happiness" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Anger stats
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+              <img src="{{ plot_month_anger }}" alt="Anger" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Anxiety stats
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              <img src="{{ plot_month_anxiety }}" alt="Anxiety" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Energy stats
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+              <img src="{{ plot_month_energy }}" alt="Energy" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Motivation stats
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+              <img src="{{ plot_month_motivation }}" alt="Motivation" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="split right">
+  <div class="centered">
+    <div class="calendar-container">
+      <div class="calendar-content">
+        <div class="calendar-title">
+          <h2>Mood Tracker Calendar</h2>
+          <h3><a href="{{ prev_link }}">Previous</a> {{ year }}/{{ month }} <a href="{{ next_link }}">Next</a></h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for week in calendar %}
+            <tr>
+              {% for day in week %}
+              {% if day == 0 %}
+              <td></td>
+              {% else %}
+              <td class="calendar-cell">
+                <form method="post" action="{% url 'calendar' year=year month=month %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="date" value="{{ year }}-{{ month }}-{{ day }}">
+                  <div class="day-cell" {% if day in mood_entries_dict %}
+                    style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"
+                    {% endif %}>
+                    <div class="day-number">{{ day }}</div>
+                    {% if day in mood_entries_dict %}
+                    <div class="menu-container">
+                      <button type="button" class="toggle-button-saved">Your mood</button>
+                      <div class="choices">
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"> Happiness: {{ mood_entries_dict|one_more:day|get_mood_name:'happiness' }} </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"> Anger: {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"> Anxiety: {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }}</div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"> Energy: {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }}</div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"> Motivation: {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }}</div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="mood-name" style="background-color: #ccdcff;">{{ mood_entries_dict|get_description:day }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="menu-container">
+                      <button type="button" class="toggle-button">Your mood</button>
+                      <div class="choices">
+                        <div class="choice-row">
+                          <div class="menu-mood"> 
+                            <div class="dot"></div>
+                            <select name="happiness" id="happiness">
+                              {% for choice in mood.HAPPINESS_CHOICES %}
+                              <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="menu-mood">
+                            <div class="dot"></div>
+                            <select name="anger" id="anger">
+                              {% for choice in mood.ANGER_CHOICES %}
+                              <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="menu-mood">
+                            <div class="dot"></div>
+                            <select name="anxiety" id="anxiety">
+                              {% for choice in mood.ANXIETY_CHOICES %}
+                              <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="menu-mood">
+                            <div class="dot"></div>
+                            <select name="energy" id="energy">
+                              {% for choice in mood.ENERGY_CHOICES %}
+                              <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="choice-row">
+                          <div class="menu-mood">
+                            <div class="dot"></div>
+                            <select name="motivation" id="motivation">
+                              {% for choice in mood.MOTIVATION_CHOICES %}
+                              <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="choice-row">
+                          <textarea class="description-textarea" name="description" id="description" placeholder="What made you feel that way today?"></textarea>
+                        </div>
+                        <div class="choice-row">
+                          <button type="submit" class="save-button">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+                </form>
+              </td>
+              {% endif %}
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   const toggleButtons = document.querySelectorAll('.toggle-button');
       toggleButtons.forEach(button => {

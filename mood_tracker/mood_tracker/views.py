@@ -258,9 +258,7 @@ def cal2(request):
 def plot_month(year, month, user, mood_name):
     mood_entries = Mood.objects.filter(user=user, date__year=year, date__month=month)
     data = pd.DataFrame(mood_entries.values())
-    print(data)
     plot = sns.lineplot(data=data, x="date", y=mood_name)
-    print(plot)
     img = io.BytesIO()
     plot.figure.savefig(img, format='png', bbox_inches='tight')
     img.seek(0)
