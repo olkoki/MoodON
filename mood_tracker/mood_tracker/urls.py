@@ -20,6 +20,10 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import cal1, cal2, home
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -41,4 +45,7 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete/password_reset_complete.html'), name='password_reset_complete'),
 
     path("accounts/profile/", TemplateView.as_view(template_name='profile/profile.html'), name="profile"),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

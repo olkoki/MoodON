@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import schedule
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'mood_tracker',
     'schedule',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+#SMTP Configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'appmoodon@gmail.com'
+EMAIL_HOST_PASSWORD = 'ovcxypjjuvpszkxi'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -118,3 +128,8 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+STATICFILES_FINDERS = [ 'djangobower.finders.BowerFinder']
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+
+BOWER_COMPONENTS_ROOT = '/ROJECT_ROOT/components/'
