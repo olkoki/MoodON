@@ -37,20 +37,78 @@
   text-align: center;
 }
 
+.button-menu {
+  border: 3px solid #9a99f2;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  width:auto;
+  height: auto;
+  box-shadow: 0px 4px 8px rgba(154, 153, 242, 0.3); 
+}
 
+.button-menu:hover {
+  background-color: #b3beff;
+  color: #000000;
+}
+
+
+.button-menu-pic {
+  width: 175px;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width:auto;
+  height: auto;
+}
 </style>
+
 <div class="split left">
     <div class="centered">
         <div class="title">
-        <h1>Welcome to MoodON</h1>
+        <h1>Welcome to MoodON, {{ request.user.username }}</h1>
         <p>How are you feeling today?</p>
-        <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
+        <img class="profile-picture" src="{{request.user.profile.profile_picture.url}}" >
+
         </div>
     </div>
 <div class="split right">
-
-    <a href="/calendar/"><img src="{% static 'images/calendar.png' %}" alt="My image">></a>
-
-
+  <div class="centered">
+<!-- images not displaying, both local and online -->
+    <div class="menu-container">
+      <div class="button-menu">
+        <a href="/calendar/"><img class="button-menu-pic" src="{% static '/images/calendar1.png' %}" alt="Mood Tracker"></a>
+        <p> Mood Tracker </p>
+      </div>
+      <div class="button-menu">
+        <a href="/breathing/"><img class="button-menu-pic" src="{% static '/images/breathing.png' %}" alt="Breathing exercises"></a>
+        <p>Relaxation</p>
+      </div>
+      <div class="button-menu">
+        <a href="#"><img class="button-menu-pic" src="{% static 'images/exercises.png' %}" alt="exercises"></a>
+        <p>Exercises</p>
+      </div>
+    </div>
+    <div class="menu-container">
+      <div class="button-menu">
+        <a href="#"><img class="button-menu-pic" src="{% static 'images/Schedule.png' %}" alt="schedule"></a>
+        <p>Daily schedule</p>
+      </div>
+      <div class="button-menu">
+        <a href="#"><img class="button-menu-pic" src="{% static 'images/todo.png' %}" alt="to-do"></a>
+        <p> To-do</p>
+      </div>
+      <div class="button-menu">
+        <a href="#"><img class="button-menu-pic" src="{% static 'images/education.png' %}"></a>
+        <p>Psychoeductaion</p>
+      </div>
+    </div>
+    <a href="https://storyset.com/"> Illustrations by Storyset</a>
+  </div>
 </div>
 {% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+
+  /* Split the screen in half */
+  .split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  margin-top: 56px;
+  background-color: #9a99f2;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  margin-top: 56px;
+  background-color: #ccdcff;
+}
+
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.button-menu {
+  border: 3px solid #9a99f2;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  width:auto;
+  height: auto;
+  box-shadow: 0px 4px 8px rgba(154, 153, 242, 0.3);
+}
+
+.button-menu-pic {
+  width: 175px;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width:auto;
+  height: auto;
+}
+
+.card {
+  justify-content: center;
+}
+
+</style>
+
+<div class="split left">
+    <div class="centered">
+        <div class="title">
+        <h1>Hi, {{ request.user.username }}</h1>
+        <h4>Are you ready to relax?</h4>
+        <hr>
+        <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
+        <div id="accordion">
+            <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Instruction
+                </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <i>You can use this exercise as a help to calm yourself during stressful situation or to just learn how to relax your mind and body in simple steps.</i>
+                    <hr>
+                    Box breathing uses four simple steps. While doing it, it may be helpful to visualize a box with four equal sides.
+
+                    <p><b>1:</b> Breathe in through the nose for a count of 4. </p>
+                    <p><b>2:</b> Hold breath for a count of 4. </p>
+                    <p><b>3:</b> Breath out for a count of 4. </p>
+                    <p><b>4:</b> Hold breath for a count of 4. </p>
+                    <p><b>Repeat</b></p>
+                    <hr>
+                    <i>You can read more about Box Breathing technique here: <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>Norelli, S. K., Long, A., & Krepps, J. M. (2018). Relaxation techniques.</b></a></i>
+                </div>
+            </div>
+            </div>
+            <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Facts
+                </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    While there are many different forms of deep breathing exercises, box breathing can be particularly helpful with relaxation. Box breathing is a breathing exercise to assist patients with stress management and can be implemented before, during, and/or after stressful experiences.
+                </div>
+            </div>
+            </div>
+        </div>
+        <p></p>
+        <p></p>
+        <button type="button" class="btn btn-outline-light"><a href="/dashboard/"> Go back </a></button>
+    </div>
+</div>
+<div class="split right">
+  <div class="centered">
+    <video width="320" height="240" controls>
+        <source src="{% static '/images/box.mp4' %}" type="video/mp4">
+  </div>
+</div>
+{% endblock %}
