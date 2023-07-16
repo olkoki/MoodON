@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import cal1, cal2, home
+from .views import cal1, cal2, home, reminder_list, create_reminder
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -47,7 +47,21 @@ urlpatterns = [
 
     path("accounts/profile/", TemplateView.as_view(template_name='profile/profile.html'), name="profile"),
     path('breathing/', TemplateView.as_view(template_name='breathing/breathing.html'), name='breathing'),
+    path('notifications/', TemplateView.as_view(template_name='notify/notify.html'), name='Notifications'),
+    path('notifications/reminders/', reminder_list, name='reminders'),
+    path('notifications/reminders/create/', create_reminder, name='create'),
 
+    path('to-do/', views.ReminderList.as_view(), name='tasks'),
+    path('to-do/task/add/', views.ReminderCreate.as_view(), name='task_add'),
+    path('to-do/task-update/<int:pk>/', views.ReminderUpdate.as_view(), name='task_update'),
+    path('to-do/task/<int:pk>/delete/', views.ReminderDelete.as_view(), name='task_delete'),
+    path('to-do/task/<int:pk>/finish/', views.finish_task, name='finish_task'),
+
+    # urls for API
+    path('api/', views.ReminderListAPI.as_view()),
+    path('api/<int:pk>/', views.ReminderDetailAPI.as_view()),
+    path('api/add/', views.ReminderCreateAPI.as_view()),
+    path('api/<int:pk>/finish/', views.finish_task_API),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

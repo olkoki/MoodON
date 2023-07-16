@@ -1,9 +1,9 @@
 # mood_calendar/forms.py
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import MoodEntry, Profile
+from .models import Profile, Reminder, Task
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -17,8 +17,26 @@ class CustomerForm(ModelForm):
         fields = '__all__'
         exclude = ['user']
 
-
-class MoodEntryForm(forms.ModelForm):
+class ReminderForm(forms.ModelForm):
     class Meta:
-        model = MoodEntry
-        fields = ['mood']
+        model = Reminder
+        fields = ('title', 'description', 'reminder_date')
+
+class ReminderCreateForm(ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'due_date']
+        widgets = {
+            'due_date': widgets.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+class ReminderUpdateForm(ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'due_date', 'is_finished', 'is_notified']
+        labels = {'is_finished':'Mark as Done'}
+        widgets = {
+            'due_date': widgets.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }

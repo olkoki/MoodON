@@ -1,8 +1,20 @@
+from __future__ import unicode_literals
+from typing import Iterable, Optional
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.timezone import timedelta
-from schedule.models import Event
+
+import redis
+
+from django.core.exceptions import ValidationError
+from django.conf import settings
+from django.db import models
+from django.urls import reverse
+from six import python_2_unicode_compatible
+
+import arrow
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -14,13 +26,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-
-class MoodEntry(models.Model):
-    
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    mood = models.CharField(max_length=50)
 
 class Mood(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -83,3 +88,39 @@ class Mood(models.Model):
     energy = models.IntegerField(choices=ENERGY_CHOICES)
     motivation = models.IntegerField(choices=MOTIVATION_CHOICES)
     description = models.CharField(max_length=200, default='Hello world')
+
+class Reminder(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    reminder_date = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
+class Task(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+    is_finished = models.BooleanField(default=False)
+    is_notified = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ('due_date',)
+    
+    def __str__(self):
+        return self.title
+    
+    def has_alarm(self):
+        return self.due_date is not None
+    
+    def has_expired(self):
+        if self.has_alarm():
+            return timezone.now() > self.due_date
+        else:
+            return False
+        
+    def status(self):
+        if self.is_finished:
+            return 'is_finished'
+        elif self.has_expired():
+            return 'Expired'
+        else:
+            return "In progress"

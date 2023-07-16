@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'mood_tracker',
     'schedule',
     'djangobower',
+    'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 BOWER_COMPONENTS_ROOT = '/ROJECT_ROOT/components/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

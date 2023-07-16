@@ -1,12 +1,14 @@
 # mood_calendar/views.py
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import MoodEntryForm, CreateUserForm, CustomerForm
-from schedule.models import Event
-from .models import MoodEntry, Profile, Mood
+from .forms import CreateUserForm, CustomerForm, ReminderForm, ReminderCreateForm, ReminderUpdateForm
+from .models import Profile, Mood, Reminder, Task
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import unauthenticated_user, allowed_users
 import calendar
 from datetime import datetime, date
@@ -14,10 +16,17 @@ from django.views import View
 from django.utils.safestring import mark_safe
 from django.urls import reverse_lazy
 from schedule.periods import Day
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
+from django.db.models import F
 from django.template import loader
 from django.contrib.auth.models import User
 from django.template.defaulttags import register
+
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from . import serializers
 
 import seaborn as sns
 import pandas as pd
@@ -265,3 +274,86 @@ def plot_month(year, month, user, mood_name):
     img.seek(0)
     plot.figure.clf()
     return "data:image/png;base64, {}".format(base64.b64encode(img.getvalue()).decode('utf-8'))
+
+#working idea
+def create_reminder(request):
+    if request.method == 'POST':
+        form = ReminderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Reminder created successfully.')
+            return redirect('reminder_list')
+    else:
+        form = ReminderForm()
+    return render(request, 'notify/create.html', {'form': form})
+    
+def reminder_list(request):
+    print("Hey")
+    reminders = Reminder.objects.all()
+    return render(request, 'notify/reminders.html', {'reminders': reminders})
+
+#https://github.com/arianshnsz/Django-Task-Reminder/blob/master/reminder/views.py
+class ReminderList(LoginRequiredMixin, ListView):
+    model = Task
+    context_object_name = 'all_tasks'
+    template_name ='to-do/task_list.html'
+
+    def get_queryset(self):
+        return Task.objects.order_by(F('due_date').asc(nulls_last=True))
+    
+class ReminderCreate(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = ReminderCreateForm
+    template_name = 'to-do/task_add.html'
+    success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class ReminderUpdate(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = ReminderUpdateForm
+    template_name = 'to-do/task_update.html'
+    success_url = reverse_lazy('tasks')
+
+class ReminderDelete(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy('tasks')
+
+def finish_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.is_finished = True
+    task.save()
+
+    return redirect('tasks')
+
+# views for API
+class ReminderCreateAPI(generics.CreateAPIView):
+    serializer_class = serializers.ReminderCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class ReminderListAPI(generics.ListAPIView):
+    serializer_class = serializers.ReminderListSerializer
+
+    def get_queryset(self):
+        return Task.objects.filter(owner=self.request.user).order_by(F('due_date').asc(nulls_last=True))
+
+
+class ReminderDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = serializers.ReminderDetailSerializer
+
+
+@api_view(['GET'])
+def finish_task_API(request, pk):
+
+    task = Task.objects.get(id=pk)
+    task.is_finished = True
+    task.save()
+
+    context = {
+        'code': 'task_finished'
+    }
+    return Response(context)
