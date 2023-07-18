@@ -1,12 +1,13 @@
-{% extends 'main/main.html' %}
+<!DOCTYPE html>
+{% extends 'meds/base.html' %}
+{% block title %} add task {% endblock title %}
 
-{% block content %}
-{% load static %}
+{% block add_task_active %}active{% endblock add_task_active %}
+{% block body %}
 {% load crispy_forms_tags %}
-    <form method="post">
+ <form action="" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add</button>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Add</button>
     </form>
-
-{% endblock %}
+{% endblock body %}

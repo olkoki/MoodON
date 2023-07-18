@@ -40,7 +40,7 @@ class MedicineForm(forms.ModelForm):
     
     class Meta:
         model = Medicine
-        fields = ['name', 'description', 'amount', 'dose', 'dose_time']
+        fields = ['name', 'description', 'amount', 'dose']
 
 class MedsReminderForm(forms.ModelForm):
     class Meta:
@@ -50,4 +50,4 @@ class MedsReminderForm(forms.ModelForm):
 class MedsUpdateForm(forms.ModelForm):
         class Meta:
             model = Medicine
-            fields = ['name', 'description', 'amount', 'dose', 'dose_time']
+            fields = ['name', 'description', 'amount', 'dose']

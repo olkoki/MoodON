@@ -124,20 +124,10 @@ class Medicine(models.Model):
     description = models.TextField(null=True, blank=True)
     amount = models.PositiveIntegerField(default=1)
     dose = models.PositiveIntegerField(default=1)
-    dose_time = models.DateTimeField()
     reminders = models.ManyToManyField('MedsReminders')
     
     def __str__(self):
         return self.name
-    
-    def has_alarm(self):
-        return self.dose_time is not None
-    
-    def has_expired(self):
-        if self.has_alarm():
-            return timezone.now() > self.dose_time
-        else:
-            return False
     
     def minus_dose(self):
         if self.amount >= self.dose:
