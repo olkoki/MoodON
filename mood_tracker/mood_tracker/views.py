@@ -370,16 +370,15 @@ class MedicineDelete(LoginRequiredMixin, DeleteView):
     model = Medicine
     success_url = reverse_lazy('info_meds')
 
-def add_med(request):
-    if request.method == 'POST':
-        form = MedicineForm(request.POST)
-        if form.is_valid():
-            medicine = form.save()
-            return redirect('add_reminder', medicine_id=medicine.id)
-    else:
-        form = MedicineForm()
-    return render(request, 'meds/add_med.html', {'form': form})
+class MedcicineReminder(LoginRequiredMixin, CreateView):
+    model = Notification
+    form_class = MedsReminderForm
+    template_name = 'meds/add_reminder.html'
+    success_url = reverse_lazy('info_meds')
 
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
 def add_reminder(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
     if request.method == 'POST':
@@ -388,9 +387,14 @@ def add_reminder(request, medicine_id):
             reminder = form.save(commit=False)
             reminder.medicine = medicine
             reminder.save()
-            message = f"Time for taking {medicine.name} at {Notification.time}"
-            notification = Notification(user=request.user, message=message, time=notification.time)
+            
+            time = form.cleaned_data.get('time')  
+            
+            message = f"Time for taking {medicine.name} at {time}"
+            notification = Notification(message=message, time=time)
             notification.save()
+            
+            messages.success(request, "Reminder added successfully.")
             return redirect('add_reminder', medicine_id=medicine_id)
     else:
         form = MedsReminderForm()
@@ -400,7 +404,6 @@ def mark_taken(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
     if request.method == 'POST':
         medicine.minus_dose()
-        messages.success(request,'Medication {medicine.name} marked as taken successfully.')
     return redirect('info_meds')
 
 def info_meds(request):
