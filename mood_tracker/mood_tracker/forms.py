@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Reminder, Task
+from .models import Profile, Task, Medicine, MedsReminders
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -16,11 +16,6 @@ class CustomerForm(ModelForm):
         model = Profile
         fields = '__all__'
         exclude = ['user']
-
-class ReminderForm(forms.ModelForm):
-    class Meta:
-        model = Reminder
-        fields = ('title', 'description', 'reminder_date')
 
 class ReminderCreateForm(ModelForm):
 
@@ -40,3 +35,19 @@ class ReminderUpdateForm(ModelForm):
         widgets = {
             'due_date': widgets.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
+class MedicineForm(forms.ModelForm):
+    
+    class Meta:
+        model = Medicine
+        fields = ['name', 'description', 'amount', 'dose', 'dose_time']
+
+class MedsReminderForm(forms.ModelForm):
+    class Meta:
+        model = MedsReminders
+        fields = ['time']
+
+class MedsUpdateForm(forms.ModelForm):
+        class Meta:
+            model = Medicine
+            fields = ['name', 'description', 'amount', 'dose', 'dose_time']

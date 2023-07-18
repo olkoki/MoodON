@@ -1,0 +1,14 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+    <h1>Add reminder</h1>
+    <p>Medicine: {{ medicine.name }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add</button>
+    </form>
+
+    {% endblock %}

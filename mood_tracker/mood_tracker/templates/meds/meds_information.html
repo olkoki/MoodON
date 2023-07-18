@@ -1,0 +1,135 @@
+{% extends 'main/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meds information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .inside {
+            height: 50vh;
+            overflow-y: scroll;
+        }
+
+        .passed {
+            color: #86242A;
+        }
+
+        td {
+            max-width: 5rem;
+        }
+        .button {
+          margin-left: 50%;
+          margin-right: 50%;
+          margin-top: 2%;
+          width: 140px;
+          height: 70px;
+          border-radius: 25% !important;
+          background-color: rgba(255, 255, 255, 0.2);
+          color: white;
+          border: none !important;
+          padding: 30px 30px !important;
+          -webkit-transition: background-color 1s, color 1s, -webkit-transform 0.5s;
+            transition: background-color 1s, transform 0.5s;
+        }
+
+        .button:hover {
+          background-color: rgba(255, 255, 255, 0.8);
+          color: black;
+          -webkit-transform: translateX(-5px);
+          -webkit-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+          -moz-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+          box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+        }
+
+    </style>
+</head>
+
+<section class="vh-100" style="background-color: #ccdcff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-9">
+                <div class="card rounded-3">
+                    <div class="card-body p-4">
+                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <div class="container-fluid">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item ">
+                                        <a class="nav-link active" href="/meds-tracking/add_medicine/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                                            </svg>
+                                            Medicine
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="{% url 'add_med' %}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                                Add medicine
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <h4 class="text-center my-3 pb-3">Medicine List</h4>
+                        <div class="inside">
+                            <table class="table mb-4">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Reminders</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for medicine in meds %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ medicine.name }}</td>
+                                        <td>{{ medicine.description }}</td>
+                                        <td>{{ medicine.dose }}</td>
+                                        <td>{{ medicine.dose_time }}</td>
+                                        <td>{{ medicine.amount }}</td>
+                                        <td>
+                                            <ul>
+                                                {% for reminder in medicine.reminders.all %}
+                                                <li>{{ MedsReminder.time }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <form action="{% url 'mark_taken' medicine.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Mark as taken</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="button" href='/dashboard/' style="text-align: center;">Go back</a>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+{% endblock %}

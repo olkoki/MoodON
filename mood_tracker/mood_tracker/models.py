@@ -89,12 +89,6 @@ class Mood(models.Model):
     motivation = models.IntegerField(choices=MOTIVATION_CHOICES)
     description = models.CharField(max_length=200, default='Hello world')
 
-class Reminder(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    reminder_date = models.DateTimeField()
-    created_date = models.DateTimeField(auto_now_add=True)
-
 class Task(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
@@ -124,3 +118,35 @@ class Task(models.Model):
             return 'Expired'
         else:
             return "In progress"
+
+class Medicine(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    amount = models.PositiveIntegerField(default=1)
+    dose = models.PositiveIntegerField(default=1)
+    dose_time = models.DateTimeField()
+    reminders = models.ManyToManyField('MedsReminders')
+    
+    def __str__(self):
+        return self.name
+    
+    def has_alarm(self):
+        return self.dose_time is not None
+    
+    def has_expired(self):
+        if self.has_alarm():
+            return timezone.now() > self.dose_time
+        else:
+            return False
+    
+    def minus_dose(self):
+        if self.amount >= self.dose:
+            self.amount -= self.dose
+            self.save()
+        
+class MedsReminders(models.Model):
+    name = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.medicine.name} - {self.time}"

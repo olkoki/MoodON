@@ -1,9 +1,11 @@
 # mood_calendar/views.py
 from typing import Any
 from django.db.models.query import QuerySet
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import CreateUserForm, CustomerForm, ReminderForm, ReminderCreateForm, ReminderUpdateForm
-from .models import Profile, Mood, Reminder, Task
+from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm
+from .models import Profile, Mood, Task, Medicine, MedsReminders
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
@@ -275,23 +277,6 @@ def plot_month(year, month, user, mood_name):
     plot.figure.clf()
     return "data:image/png;base64, {}".format(base64.b64encode(img.getvalue()).decode('utf-8'))
 
-#working idea
-def create_reminder(request):
-    if request.method == 'POST':
-        form = ReminderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Reminder created successfully.')
-            return redirect('reminder_list')
-    else:
-        form = ReminderForm()
-    return render(request, 'notify/create.html', {'form': form})
-    
-def reminder_list(request):
-    print("Hey")
-    reminders = Reminder.objects.all()
-    return render(request, 'notify/reminders.html', {'reminders': reminders})
-
 #https://github.com/arianshnsz/Django-Task-Reminder/blob/master/reminder/views.py
 class ReminderList(LoginRequiredMixin, ListView):
     model = Task
@@ -357,3 +342,63 @@ def finish_task_API(request, pk):
         'code': 'task_finished'
     }
     return Response(context)
+
+class MedicineList(LoginRequiredMixin, ListView):
+    model = Medicine
+    context_object_name = 'all_meds'
+    template_name = 'meds/meds_information.html'
+
+    def get_queryset(self):
+        return Medicine.objects.order_by(F('amount').asc(nulls_last=True))
+    
+class MedicineCreate(LoginRequiredMixin, CreateView):
+    model = Medicine
+    form_class = MedicineForm
+    template_name = 'meds/add_med.html'
+    success_url = reverse_lazy('info_meds')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class MedicineUpdate(LoginRequiredMixin, UpdateView):
+    model = Medicine
+    form_class = MedsUpdateForm
+    template_name = 'meds/meds_update.html'
+    success_url = reverse_lazy('info_meds')
+
+class MedicineDelete(LoginRequiredMixin, DeleteView):
+    model = Medicine
+    success_url = reverse_lazy('info_meds')
+
+def add_med(request):
+    if request.method == 'POST':
+        form = MedicineForm(request.POST)
+        if form.is_valid():
+            medicine = form.save()
+            return redirect('add_reminder', medicine_id=medicine.id)
+    else:
+        form = MedicineForm()
+    return render(request, 'meds/add_med.html', {'form': form})
+
+def add_reminder(request, medicine_id):
+    medicine = Medicine.objects.get(id=medicine_id)
+    if request.method == 'POST':
+        form = MedsReminderForm(request.POST)
+        if form.is_valid():
+            reminder = form.save(commit=False)
+            reminder.medicine = medicine
+            reminder.save()
+            return redirect('add_reminder', medicine_id=medicine_id)
+    else:
+        form = MedsReminderForm()
+    return render(request, 'meds/add_reminder.html', {'form': form, 'medicine': medicine})
+
+def mark_taken(request, medicine_id):
+    medicine = Medicine.objects.get(id=medicine_id)
+    if request.method == 'POST':
+        medicine.minus_dose()
+    return redirect('info_meds')
+
+def info_meds(request):
+    meds = Medicine.objects.all()
+    return render(request, 'meds/meds_information.html', {'meds': meds})
