@@ -123,6 +123,12 @@
                                             </ul>
                                         </td>
                                         <td>
+                                            <form action="{% url 'add_reminder' medicine.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Add reminder</button>
+                                            </form>
+                                        </td>
+                                        <td>
                                             <form action="{% url 'mark_taken' medicine.id %}" method="post">
                                                 {% csrf_token %}
                                                 <button type="submit">Mark as taken</button>

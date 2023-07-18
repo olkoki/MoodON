@@ -52,7 +52,7 @@ urlpatterns = [
     path('meds-tracking/add_medicine/', views.MedicineCreate.as_view(), name='add_med'),
     path('meds-tracking/update/<int:pk>/', views.MedicineUpdate.as_view(), name='meds_update'),
     path('meds-tracking/delete/<int:pk>/', views.MedicineDelete.as_view(), name='meds_delete'),
-    path('meds-tracking/add_reminder/<int:medicine_id>/', views.add_reminder, name='add_reminder'),
+    path('meds-tracking/add-reminder/<int:medicine_id>/', views.add_reminder, name='add_reminder'),
     path('meds-tracking/mark-taken/<int:medicine_id>/', views.mark_taken, name='mark_taken'),
     path('meds-tracking/information/', views.info_meds, name='info_meds'),
 

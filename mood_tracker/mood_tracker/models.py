@@ -140,3 +140,11 @@ class MedsReminders(models.Model):
 
     def __str__(self):
         return f"{self.medicine.name} - {self.time}"
+    
+#https://stackoverflow.com/questions/72264677/how-can-i-implement-notifications-system-in-django
+class Notification(models.Model):
+    is_read = models.BooleanField(default=False)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.TimeField()

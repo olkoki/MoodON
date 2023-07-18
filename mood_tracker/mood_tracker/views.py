@@ -5,7 +5,7 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponse
 from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm
-from .models import Profile, Mood, Task, Medicine, MedsReminders
+from .models import Profile, Mood, Task, Medicine, MedsReminders, Notification
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
@@ -388,6 +388,9 @@ def add_reminder(request, medicine_id):
             reminder = form.save(commit=False)
             reminder.medicine = medicine
             reminder.save()
+            message = f"Time for taking {medicine.name} at {Notification.time}"
+            notification = Notification(user=request.user, message=message, time=notification.time)
+            notification.save()
             return redirect('add_reminder', medicine_id=medicine_id)
     else:
         form = MedsReminderForm()
@@ -397,6 +400,7 @@ def mark_taken(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
     if request.method == 'POST':
         medicine.minus_dose()
+        messages.success(request,'Medication {medicine.name} marked as taken successfully.')
     return redirect('info_meds')
 
 def info_meds(request):
