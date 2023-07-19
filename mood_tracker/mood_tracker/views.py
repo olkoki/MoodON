@@ -231,7 +231,6 @@ class CalendarView(TemplateView):
         mood_entries = Mood.objects.filter(user=user, date__year=year, date__month=month)
         
         # Create a dictionary to hold the mood entries for each day
-        print(mood_entries)
         mood_entries_dict = {}
         for entry in mood_entries:
             day = entry.date.day

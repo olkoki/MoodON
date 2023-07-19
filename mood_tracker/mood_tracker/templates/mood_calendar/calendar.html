@@ -1,6 +1,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <style>
   .calendar-container {
@@ -290,10 +293,103 @@
 
 .card {
   justify-content: center;
+  width: 500px;
+  background-color: #ccdcff;
 }
 
 .card-body {
-  scale: 80%;
+  left: 50%;
+  top: 50%;
+  scale: 90%;
+  background-color: #ccdcff;
+}
+
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b3beff;
+    color: white;
+    border: none;
+    border-radius: 25%;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.5s, color 0.5s, transform 0.5s;
+    position: relative;
+    padding-left: 30px;
+}
+
+a.button .icon {
+    position: absolute;
+    top: 45%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+a.button .icon svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+a.button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    transform: translateX(-5px);
+    box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+
+img {
+  display: block;
+  max-width: 450px;
+  height: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn.btn-link {
+  color: #8b79d9;
+  font-size: 16px;
+  
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  background-color: #9a99f2;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header button {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card-header button:hover {
+  background-color: #9a99f2;;
+  color: #fff;
+}
+.accordion {
+    border: 1px solid #9a99f2;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+.accordion .card {
+  margin-bottom: 2px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
 {% extends 'main/main.html' %}
@@ -304,73 +400,72 @@
     <div class="title">
       <h1>Welcome to the Mood Tracker!</h1>
       <p>How are you feeling today?</p>
-      <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
-      <div id="accordion">
+      <div id="accordion" class="accordion">
         <div class="card">
-          <div class="card-header" id="headingOne">
+          <div class="card-header" id="headingOne" style="background-color: #ddddfc;">
             <h5 class="mb-0">
               <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 Happiness stats
               </button>
             </h5>
           </div>
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="background-color: #ccdcff;">
             <div class="card-body">
               <img src="{{ plot_month_happiness }}" alt="Happiness" />
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header" id="headingTwo">
+          <div class="card-header" id="headingTwo" style="background-color: #ddddfc;">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 Anger stats
               </button>
             </h5>
           </div>
-          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="background-color: #ccdcff;">
             <div class="card-body">
               <img src="{{ plot_month_anger }}" alt="Anger" />
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header" id="headingThree">
+          <div class="card-header" id="headingThree" style="background-color: #ddddfc;">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                 Anxiety stats
               </button>
             </h5>
           </div>
-          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="background-color: #ccdcff;">
             <div class="card-body">
               <img src="{{ plot_month_anxiety }}" alt="Anxiety" />
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header" id="headingFour">
+          <div class="card-header" id="headingFour" style="background-color: #ddddfc;">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                 Energy stats
               </button>
             </h5>
           </div>
-          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="background-color: #ccdcff;">
             <div class="card-body">
               <img src="{{ plot_month_energy }}" alt="Energy" />
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header" id="headingFive">
+          <div class="card-header" id="headingFive" style="background-color: #ddddfc;">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                 Motivation stats
               </button>
             </h5>
           </div>
-          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="background-color: #ccdcff;">
             <div class="card-body">
               <img src="{{ plot_month_motivation }}" alt="Motivation" />
             </div>
@@ -379,7 +474,14 @@
       </div>
     </div>
     <hr>
-    <button type="button" class="btn btn-outline-light"><a href="/dashboard/"> Go back </a></button>
+    <a href="/dashboard/" class="button">
+      <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </span>
+      Go back
+    </a>
   </div>
 </div>
 <div class="split right">
@@ -420,11 +522,10 @@
                     {% if day in mood_entries_dict %}
                     <div class="menu-container">
                     <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                        Launch demo modal
-                      </button>
-
-                      <!-- Modal -->
+                    <button type="button" class="btn btn-primary toggle-button-saved" data-toggle="modal" data-target="#exampleModalCenter">
+                      Your mood
+                    </button>
+                    
                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
@@ -435,7 +536,26 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              ...
+                              <div class="choices">
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"> Happiness: {{ mood_entries_dict|one_more:day|get_mood_name:'happiness' }} </div>
+                                </div>
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"> Anger: {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
+                                </div>
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"> Anxiety: {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }}</div>
+                                </div>
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"> Energy: {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }}</div>
+                                </div>
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"> Motivation: {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }}</div>
+                                </div>
+                                <div class="choice-row">
+                                  <div class="mood-name" style="background-color: #ccdcff;">{{ mood_entries_dict|get_description:day }}</div>
+                                </div>
+                              </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -444,6 +564,7 @@
                           </div>
                         </div>
                       </div>
+
                       <button type="button" class="toggle-button-saved">Your mood</button>
                       <div class="choices">
                         <div class="choice-row">
@@ -568,7 +689,6 @@
     });
   });
 </script>
-
 
 {% endblock %}
 

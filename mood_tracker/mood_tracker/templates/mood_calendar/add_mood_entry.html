@@ -1,8 +1,0 @@
-<!-- mood_calendar/add_mood_entry.html -->
-<h1>Add Mood Entry</h1>
-
-<form method="POST" action="{% url 'add_mood_entry' event.id %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
