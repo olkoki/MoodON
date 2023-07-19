@@ -1,0 +1,15 @@
+{% extends 'routine/base.html' %}
+{% block title %} add task {% endblock title %}
+
+{% block add_task_active %}active{% endblock add_task_active %}
+{% block body %}
+{% load crispy_forms_tags %}
+    <p></p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p></p>
+        <button type="submit" class="btn btn-success" style="text-align: center;">Add</button>
+    </form>
+    <p></p>
+{% endblock body %}

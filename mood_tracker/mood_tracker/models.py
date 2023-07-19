@@ -147,3 +147,9 @@ class Notification(models.Model):
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     time = models.TimeField()
+
+class DailyRoutine(models.Model):
+    title = models.CharField(max_length=200)
+    is_finished = models.BooleanField(default=False)
+    date = models.DateField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)

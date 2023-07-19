@@ -67,6 +67,12 @@ urlpatterns = [
     path('api/<int:pk>/', views.ReminderDetailAPI.as_view()),
     path('api/add/', views.ReminderCreateAPI.as_view()),
     path('api/<int:pk>/finish/', views.finish_task_API),
+
+    path('daily-routine/', views.DailyRoutineList.as_view(), name='routine_list'),
+    path('daily-routine/add/', views.DailyRoutineCreate.as_view(), name='routine_add'),
+    path('daily-routine/update/<int:pk>/', views.DailyRoutineUpdate.as_view(), name='routine_update'),
+    path('daily-routine/<int:pk>/delete/', views.DailyRoutineDelete.as_view(), name='routine_delete'),
+    path('daily-routine/<int:pk>/finish/', views.mark_as_done, name='finish_routine'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

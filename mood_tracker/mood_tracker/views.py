@@ -4,8 +4,8 @@ from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm
-from .models import Profile, Mood, Task, Medicine, MedsReminders, Notification
+from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm, RoutineCreateForm, RoutineUpdateForm
+from .models import Profile, Mood, Task, Medicine, MedsReminders, Notification, DailyRoutine
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
@@ -409,3 +409,38 @@ def mark_taken(request, medicine_id):
 def info_meds(request):
     meds = Medicine.objects.all()
     return render(request, 'meds/meds_information.html', {'meds': meds})
+
+class DailyRoutineList(LoginRequiredMixin, ListView):
+    model = DailyRoutine
+    context_object_name = 'all_routine'
+    template_name ='routine/routine_list.html'
+    today = date.today()
+    
+    def get_queryset(self):
+        return DailyRoutine.objects.order_by(F('date_created').asc(nulls_last=True))
+
+class DailyRoutineCreate(LoginRequiredMixin, CreateView):
+    model = DailyRoutine
+    form_class = RoutineCreateForm
+    template_name = 'routine/routine_add.html'
+    success_url = reverse_lazy('routine_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class DailyRoutineUpdate(LoginRequiredMixin, UpdateView):
+    model = DailyRoutine
+    form_class = RoutineUpdateForm
+    template_name = 'routine/routine_update.html'
+    success_url = reverse_lazy('routine_list')
+
+class DailyRoutineDelete(LoginRequiredMixin, DeleteView):
+    model = DailyRoutine
+    success_url = reverse_lazy('routine_list')
+
+def mark_as_done(request, pk):
+    routine = DailyRoutine.objects.get(id=pk)
+    routine.is_finished = True
+    routine.save()
+
+    return redirect('routine_list')

@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Task, Medicine, MedsReminders, Notification
+from .models import Profile, Task, Medicine, MedsReminders, Notification, DailyRoutine
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -51,3 +51,15 @@ class MedsUpdateForm(forms.ModelForm):
         class Meta:
             model = Medicine
             fields = ['name', 'description', 'amount', 'dose']
+
+class RoutineCreateForm(ModelForm):
+
+    class Meta:
+        model = DailyRoutine
+        fields = ['title']
+
+class RoutineUpdateForm(ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ['title']

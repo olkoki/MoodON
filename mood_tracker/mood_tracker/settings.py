@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'crispy_bootstrap4',
+    'django_cron',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,7 @@ REST_FRAMEWORK = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRON_CLASSES = [
+    'mood_tracker.cron.DeleteRoutineCronJob'
+]
