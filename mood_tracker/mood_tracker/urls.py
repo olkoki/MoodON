@@ -48,13 +48,13 @@ urlpatterns = [
     path("accounts/profile/", TemplateView.as_view(template_name='profile/profile.html'), name="profile"),
     path('breathing/', TemplateView.as_view(template_name='breathing/breathing.html'), name='breathing'),
     
-    path('meds-tracking/', TemplateView.as_view(template_name='meds/meds.html'), name='meds'),
+    #path('meds-tracking/', TemplateView.as_view(template_name='meds/meds.html'), name='meds'),
     path('meds-tracking/add_medicine/', views.MedicineCreate.as_view(), name='add_med'),
     path('meds-tracking/update/<int:pk>/', views.MedicineUpdate.as_view(), name='meds_update'),
     path('meds-tracking/delete/<int:pk>/', views.MedicineDelete.as_view(), name='meds_delete'),
     path('meds-tracking/add-reminder/<int:medicine_id>/', views.MedcicineReminder.as_view(), name='add_reminder'),
     path('meds-tracking/mark-taken/<int:medicine_id>/', views.mark_taken, name='mark_taken'),
-    path('meds-tracking/information/', views.info_meds, name='info_meds'),
+    path('meds-tracking/', views.info_meds, name='info_meds'),
 
     path('to-do/', views.ReminderList.as_view(), name='tasks'),
     path('to-do/task/add/', views.ReminderCreate.as_view(), name='task_add'),
