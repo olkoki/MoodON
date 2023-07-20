@@ -64,14 +64,47 @@
 .card {
   justify-content: center;
 }
+a.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b3beff;
+  color: white;
+  border: none;
+  border-radius: 25%;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.5s, color 0.5s, transform 0.5s;
+  position: relative;
+  padding-left: 30px;
+}
 
+a.button .icon {
+  position: absolute;
+  top: 45%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+
+a.button .icon svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+a.button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transform: translateX(-5px);
+  box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
 </style>
 
 <div class="split left">
     <div class="centered">
         <div class="title">
         <h1>Hi, {{ request.user.username }}</h1>
-        <h4>Are you ready to relax?</h4>
+        <h4>Deep breath in... out... It's worth to give it a try!</h4>
         <hr>
         <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
         <div id="accordion">
@@ -116,7 +149,14 @@
         </div>
         <p></p>
         <p></p>
-        <button type="button" class="btn btn-outline-light"><a href="/dashboard/"> Go back </a></button>
+        <a href="/relaxation/" class="button">
+          <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </span>
+            Go back
+        </a>
     </div>
 </div>
 <div class="split right">

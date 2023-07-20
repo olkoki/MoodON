@@ -1,0 +1,138 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  margin-top: 56px;
+  background-color: #9a99f2;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  margin-top: 56px;
+  background-color: #ccdcff;
+}
+
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.button-menu {
+  border: 3px solid #9a99f2;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  width: 200px; 
+  height: 250px;
+  box-shadow: 0px 4px 8px rgba(154, 153, 242, 0.3); 
+}
+
+.button-menu:hover {
+  background-color: #b3beff;
+  color: #000000;
+}
+.button-menu-pic {
+  width: 180px;
+  height: 180px;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: auto;
+  height: auto;
+}
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b3beff;
+    color: white;
+    border: none;
+    border-radius: 25%;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.5s, color 0.5s, transform 0.5s;
+    position: relative;
+    padding-left: 30px;
+}
+
+a.button .icon {
+    position: absolute;
+    top: 45%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+a.button .icon svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+a.button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    transform: translateX(-5px);
+    box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+</style>
+
+<div class="split left">
+    <div class="centered">
+        <div class="title">
+            <h1>Hi, {{ request.user.username }}</h1>
+            <p>Do you want to try one of the relaxation techniques?</p>    
+        </div>
+        <hr>
+        <a href="/dashboard/" class="button">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+                </svg>
+                </span>
+            Go back
+        </a>
+    </div>
+<div class="split right">
+    <div class="centered">
+        <div class="menu-container">
+            <div class="button-menu">
+                <a href="/relaxation/breathing/"><img class="button-menu-pic" src="{% static '/images/breath.png' %}" alt="Breathing"></a>
+                <p> Breathing </p>
+            </div>
+            <div class="button-menu">
+                <a href="/relaxation/imagery/"><img class="button-menu-pic" src="{% static '/images/Imagination.png' %}" alt="Guided Imagery"></a>
+                <p>Guided Imagery</p>
+            </div>
+            <div class="button-menu">
+                <a href="/relaxation/muscle/"><img class="button-menu-pic" src="{% static 'images/muscle.png' %}" alt="Progressive Muscle Relaxation"></a>
+                <p>Progressive Muscle Relaxation</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

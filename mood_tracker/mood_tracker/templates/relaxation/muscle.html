@@ -1,0 +1,209 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+{% load static %}
+
+<style>
+    /* Split the screen in half */
+    .split {
+        height: 100%;
+        width: 50%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    /* Control the left side */
+    .left {
+        left: 0;
+        margin-top: 56px;
+        background-color: #9a99f2;
+    }
+
+    /* Control the right side */
+    .right {
+        right: 0;
+        margin-top: 56px;
+        background-color: #ccdcff;
+    }
+
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    /* Card styles */
+    .card {
+        width: 110%;
+        max-height: 500px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        text-align: justify;
+        padding: 10px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    
+.instruction {
+    margin-bottom: 50px;
+    padding: 20px;
+    background-color: #9a99f2; /* Tło */
+    color: #fff; /* Kolor tekstu */
+    border-radius: 5px;
+    text-align: justify;
+    width: 600px;
+}
+
+.instruction h5 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.instruction p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.instruction b {
+    color: #511f73; /* Kolor wyróżnienia */
+}
+
+.instruction hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #511f73; /* Kolor linii rozdzielającej */
+}
+
+.instruction i {
+    font-size: 14px;
+    color: #511f73; /* Kolor kursywy */
+}
+
+.instruction a {
+    color: #ddd; /* Kolor linków */
+    text-decoration: none;
+}
+.indent-paragraphs {
+    padding-left: 20px; /* Dodaj wcięcie dla paragrafów */
+    background-color: #ccdcff; /* Kolor tła */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    color: #8b79d9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Dodaj cień */
+}
+.title-paragraphs {
+    text-align: justify;
+    background-color: rgba(204, 220, 255, 0.4);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    color: #511f73;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b3beff;
+    color: white;
+    border: none;
+    border-radius: 25%;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.5s, color 0.5s, transform 0.5s;
+    position: relative;
+    padding-left: 30px;
+}
+
+a.button .icon {
+    position: absolute;
+    top: 45%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+a.button .icon svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+a.button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    transform: translateX(-5px);
+    box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+        .split {
+            width: 100%;
+        }
+
+        .right {
+            display: none;
+        }
+
+        .left {
+            margin-top: 100px; /* Adjust the margin for better positioning on smaller screens */
+        }
+
+        .instruction {
+            width: 100%;
+        }
+    }
+
+</style>
+<div class="split left">
+    <div class="centered">
+        <div class="title">
+            <h1>Progressive Muscle Relaxation</h1>
+        </div>
+        <hr>
+        <a href="/relaxation/" class="button">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+                </svg>
+                </span>
+            Go back
+        </a>
+    </div>
+</div>
+<div class="split right">
+    <div class="centered">
+        <div class="instruction">
+            <h5 style="color: #511f73;">Instruction</h5>
+            <hr>
+            <p>Video in progress</p>
+            <hr>
+            <i>You can read more about the Progressive Muscle Relaxation technique <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>here</b></a>.</i>
+        </div>  
+    </div>
+</div>
+{% endblock %}

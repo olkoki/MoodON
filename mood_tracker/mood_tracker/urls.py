@@ -46,7 +46,11 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete/password_reset_complete.html'), name='password_reset_complete'),
 
     path("accounts/profile/", TemplateView.as_view(template_name='profile/profile.html'), name="profile"),
-    path('breathing/', TemplateView.as_view(template_name='breathing/breathing.html'), name='breathing'),
+    
+    path('relaxation/', TemplateView.as_view(template_name='relaxation/relaxation.html'), name='relaxation'),
+    path('relaxation/breathing/', TemplateView.as_view(template_name='relaxation/breathing.html'), name='breathing'),
+    path('relaxation/imagery/', TemplateView.as_view(template_name='relaxation/imagery.html'), name='imagery'),
+    path('relaxation/muscle/', TemplateView.as_view(template_name='relaxation/muscle.html'), name='muscle.html'),
     
     #path('meds-tracking/', TemplateView.as_view(template_name='meds/meds.html'), name='meds'),
     path('meds-tracking/add_medicine/', views.MedicineCreate.as_view(), name='add_med'),
