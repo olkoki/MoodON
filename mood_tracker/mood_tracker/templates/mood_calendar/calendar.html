@@ -1,3 +1,7 @@
+{% extends 'main/main.html' %}
+{% block content %}
+{% load static %}
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,9 +26,48 @@
   }
 
   .calendar-title {
+    background-color: #b3beff;
+    padding: 10px;
     text-align: center;
   }
 
+  .calendar-title h2 {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .calendar-title h3 {
+    font-size: 24px;
+    color: whitesmoke;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+  }
+
+  .calendar-title a {
+    text-decoration: none;
+    color: #805ebf;
+    margin: 0 5px;
+  }
+
+  .calendar-title a:hover {
+    text-decoration: underline;
+  }
+
+  .calendar-title .btn {
+    padding: 6px 20px; 
+    background-color: #9a99f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+  }
+
+  .calendar-title .btn:hover {
+    background-color: #8b79d9;
+  }
   .calendar-content {
     flex: 1;
     margin-top: 20px;
@@ -109,6 +152,9 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+  }
+  .toggle-button-saved:hover {
+    background-color: #cbaeef;
   }
 
   .choices {
@@ -392,8 +438,7 @@ img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
-{% extends 'main/main.html' %}
-{% block content %}
+
 
 <div class="split left">
   <div class="centered">
@@ -490,7 +535,13 @@ img {
       <div class="calendar-content">
         <div class="calendar-title">
           <h2>Mood Tracker Calendar</h2>
-          <h3><a href="{{ prev_link }}">Previous</a> {{ year }}/{{ month }} <a href="{{ next_link }}">Next</a></h3>
+          <h3>
+            <div class="btn-container">
+              <a href="{{ prev_link }}"><button class="btn">Previous</button></a>
+              <span>{{ year }}/{{ month }}</span>
+              <a href="{{ next_link }}"><button class="btn">Next</button></a>
+            </div>
+          </h3>
         </div>
         <table>
           <thead>
@@ -521,49 +572,6 @@ img {
                     <div class="day-number">{{ day }}</div>
                     {% if day in mood_entries_dict %}
                     <div class="menu-container">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary toggle-button-saved" data-toggle="modal" data-target="#exampleModalCenter">
-                      Your mood
-                    </button>
-                    
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="choices">
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'happiness' }}"> Happiness: {{ mood_entries_dict|one_more:day|get_mood_name:'happiness' }} </div>
-                                </div>
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anger' }}"> Anger: {{ mood_entries_dict|one_more:day|get_mood_name:'anger' }} </div>
-                                </div>
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'anxiety' }}"> Anxiety: {{ mood_entries_dict|one_more:day|get_mood_name:'anxiety' }}</div>
-                                </div>
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'energy' }}"> Energy: {{ mood_entries_dict|one_more:day|get_mood_name:'energy' }}</div>
-                                </div>
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: {{ mood_entries_dict|one_more:day|get_mood_color:'motivation' }}"> Motivation: {{ mood_entries_dict|one_more:day|get_mood_name:'motivation' }}</div>
-                                </div>
-                                <div class="choice-row">
-                                  <div class="mood-name" style="background-color: #ccdcff;">{{ mood_entries_dict|get_description:day }}</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       <button type="button" class="toggle-button-saved">Your mood</button>
                       <div class="choices">
