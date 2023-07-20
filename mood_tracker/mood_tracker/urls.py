@@ -27,15 +27,13 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', home, name='home_page'),
+    path('', views.dashboard, name='home_page'),
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
 
     path('dashboard/', views.dashboard, name='dashboard'),
     path('account/', views.accountSettings, name='account'),
-    #path('mood-calendar/', views.mood_calendar, name='mood_calendar'),
-    #path('mood-calendar/add/<int:event_id>/', views.add_mood_entry, name='add_mood_entry'),
     path('calendar/<int:year>/<int:month>', cal1, name='calendar'),
     path('calendar/<int:year>/<int:month>/', cal1, name='calendar'),
     path('calendar/', cal2, name='calendar'),
