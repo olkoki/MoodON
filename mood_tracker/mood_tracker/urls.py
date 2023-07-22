@@ -54,7 +54,6 @@ urlpatterns = [
     path('meds-tracking/add_medicine/', views.MedicineCreate.as_view(), name='add_med'),
     path('meds-tracking/update/<int:pk>/', views.MedicineUpdate.as_view(), name='meds_update'),
     path('meds-tracking/delete/<int:pk>/', views.MedicineDelete.as_view(), name='meds_delete'),
-    path('meds-tracking/add-reminder/<int:medicine_id>/', views.MedcicineReminder.as_view(), name='add_reminder'),
     path('meds-tracking/mark-taken/<int:medicine_id>/', views.mark_taken, name='mark_taken'),
     path('meds-tracking/', views.info_meds, name='info_meds'),
 
@@ -63,6 +62,7 @@ urlpatterns = [
     path('to-do/task-update/<int:pk>/', views.ReminderUpdate.as_view(), name='task_update'),
     path('to-do/task/<int:pk>/delete/', views.ReminderDelete.as_view(), name='task_delete'),
     path('to-do/task/<int:pk>/finish/', views.finish_task, name='finish_task'),
+    path('to-do/task/<int:pk>/unfinish/', views.unfinish_task, name='unfinish_task'),
 
     # urls for API
     path('api/', views.ReminderListAPI.as_view()),
@@ -75,6 +75,7 @@ urlpatterns = [
     path('daily-routine/update/<int:pk>/', views.DailyRoutineUpdate.as_view(), name='routine_update'),
     path('daily-routine/<int:pk>/delete/', views.DailyRoutineDelete.as_view(), name='routine_delete'),
     path('daily-routine/<int:pk>/finish/', views.mark_as_done, name='finish_routine'),
+    path('daily-routine/<int:pk>/unfinish/', views.mark_undone, name='unfinish_routine'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

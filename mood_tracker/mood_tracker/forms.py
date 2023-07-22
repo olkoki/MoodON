@@ -30,7 +30,7 @@ class ReminderUpdateForm(ModelForm):
 
     class Meta:
         model = Task
-        fields = ['title', 'description', 'due_date', 'is_finished', 'is_notified']
+        fields = ['title', 'description', 'due_date', 'is_finished']
         labels = {'is_finished':'Mark as Done'}
         widgets = {
             'due_date': widgets.DateTimeInput(attrs={'type': 'datetime-local'}),

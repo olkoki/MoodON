@@ -98,56 +98,89 @@ a.button:hover {
   transform: translateX(-5px);
   box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
 }
+.video-container {
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0px 8px 16px rgba(154, 153, 242, 0.1);
+}
+.instructions {
+  margin-bottom: 5%;
+  padding: 20px;
+  background-color: #ccdcff;
+  color: #000;
+  border-radius: 5px;
+  text-align: justify;
+  width: 600px;
+  line-height: 1.6;
+}
+
+.instructions h5 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.instructions p {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.instructions b {
+  color: #511f73;
+}
+
+.instructions hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #511f73;
+}
+
+.instructions i {
+  font-size: 14px;
+  color: #511f73;
+}
+
+.instructions a {
+  color: #511f73;
+  text-decoration: none;
+}
+
+.indent-paragraphs {
+  font-size: 16px;
+  padding-left: 20px;
+  background-color: #9a99f2;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: #ccdcff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 </style>
 
 <div class="split left">
     <div class="centered">
-        <div class="title">
-        <h1>Hi, {{ request.user.username }}</h1>
-        <h4>Deep breath in... out... It's worth to give it a try!</h4>
-        <hr>
-        <!-- https://getbootstrap.com/docs/4.0/components/collapse/ -->
-        <div id="accordion">
-            <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Instruction
-                </button>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body">
-                    <i>You can use this exercise as a help to calm yourself during stressful situation or to just learn how to relax your mind and body in simple steps.</i>
-                    <hr>
-                    Box breathing uses four simple steps. While doing it, it may be helpful to visualize a box with four equal sides.
-
-                    <p><b>1:</b> Breathe in through the nose for a count of 4. </p>
-                    <p><b>2:</b> Hold breath for a count of 4. </p>
-                    <p><b>3:</b> Breath out for a count of 4. </p>
-                    <p><b>4:</b> Hold breath for a count of 4. </p>
-                    <p><b>Repeat</b></p>
-                    <hr>
-                    <i>You can read more about Box Breathing technique here: <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>Norelli, S. K., Long, A., & Krepps, J. M. (2018). Relaxation techniques.</b></a></i>
-                </div>
-            </div>
-            </div>
-            <div class="card">
-            <div class="card-header" id="headingThree">
-                <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Facts
-                </button>
-                </h5>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body">
-                    While there are many different forms of deep breathing exercises, box breathing can be particularly helpful with relaxation. Box breathing is a breathing exercise to assist patients with stress management and can be implemented before, during, and/or after stressful experiences.
-                </div>
-            </div>
-            </div>
-        </div>
+        <div class="title" style="margin-top: 10%;">
+        <h1>BOX breathing</h1>
         <p></p>
+        <div class="instructions">
+            <p><i>You can use this exercise as a help to calm yourself during stressful situation or to just learn how to relax your mind and body in simple steps.</i></p>
+            <hr>
+            <p>Box breathing uses four simple steps. While doing it, it may be helpful to visualize a box with four equal sides.</p>
+            <div class="indent-paragraphs">
+              <p><b>1:</b> Breathe in through the nose for a count of 4. </p>
+              <p><b>2:</b> Hold breath for a count of 4. </p>
+              <p><b>3:</b> Breath out for a count of 4. </p>
+              <p><b>4:</b> Hold breath for a count of 4. </p>
+              <p><b>Repeat</b></p>
+            </div>
+            <hr>
+            <p style="text-align: center;"><b>Video is a visual aid. It plays in a loop, so you can try to relax as long as you need.</b></p>
+            <hr>
+            <i>You can read more about the BOX breathing technique <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>here</b></a>.</i>
+          </div>
+        </div>  
+        
         <p></p>
         <a href="/relaxation/" class="button">
           <span class="icon">
@@ -161,8 +194,8 @@ a.button:hover {
 </div>
 <div class="split right">
   <div class="centered">
-    <video width="320" height="240" controls>
-        <source src="{% static '/images/box.mp4' %}" type="video/mp4">
+    <video class="video-container" width="700" height="394" controls loop>
+        <source src="{% static '/video/box.mp4' %}" type="video/mp4">
   </div>
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'routine/base.html' %}
-{% block title %} add task {% endblock title %}
+{% block title %} Add task {% endblock title %}
 
 {% block add_task_active %}active{% endblock add_task_active %}
 {% block body %}
@@ -9,7 +9,7 @@
         {% csrf_token %}
         {{ form|crispy }}
         <p></p>
-        <button type="submit" class="btn btn-success" style="text-align: center;">Add</button>
+        <button type="submit" class="btn btn-success" style="display: block; margin: 0 auto;">Add</button>
     </form>
     <p></p>
 {% endblock body %}

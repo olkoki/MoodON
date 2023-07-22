@@ -1,7 +1,5 @@
 # mood_calendar/views.py
 from typing import Any
-from django.db.models.query import QuerySet
-from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponse
 from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm, RoutineCreateForm, RoutineUpdateForm
@@ -9,13 +7,12 @@ from .models import Profile, Mood, Task, Medicine, MedsReminders, Notification, 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import unauthenticated_user, allowed_users
 import calendar
-from datetime import datetime, date
+from datetime import date
 from django.views import View
-from django.utils.safestring import mark_safe
 from django.urls import reverse_lazy
 from schedule.periods import Day
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
@@ -311,6 +308,12 @@ def finish_task(request, pk):
 
     return redirect('tasks')
 
+def unfinish_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.is_finished = False
+    task.save()
+    return redirect('tasks')
+
 # views for API
 class ReminderCreateAPI(generics.CreateAPIView):
     serializer_class = serializers.ReminderCreateSerializer
@@ -377,27 +380,6 @@ class MedcicineReminder(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-    
-def add_reminder(request, medicine_id):
-    medicine = Medicine.objects.get(id=medicine_id)
-    if request.method == 'POST':
-        form = MedsReminderForm(request.POST)
-        if form.is_valid():
-            reminder = form.save(commit=False)
-            reminder.medicine = medicine
-            reminder.save()
-            
-            time = form.cleaned_data.get('time')  
-            
-            message = f"Time for taking {medicine.name} at {time}"
-            notification = Notification(message=message, time=time)
-            notification.save()
-            
-            messages.success(request, "Reminder added successfully.")
-            return redirect('add_reminder', medicine_id=medicine_id)
-    else:
-        form = MedsReminderForm()
-    return render(request, 'meds/add_reminder.html', {'form': form, 'medicine': medicine})
 
 def mark_taken(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
@@ -442,4 +424,10 @@ def mark_as_done(request, pk):
     routine.is_finished = True
     routine.save()
 
+    return redirect('routine_list')
+
+def mark_undone(request, pk):
+    routine = DailyRoutine.objects.get(id=pk)
+    routine.is_finished = False
+    routine.save()
     return redirect('routine_list')

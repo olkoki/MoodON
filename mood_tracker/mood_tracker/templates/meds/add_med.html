@@ -5,9 +5,12 @@
 {% block add_task_active %}active{% endblock add_task_active %}
 {% block body %}
 {% load crispy_forms_tags %}
- <form action="" method="post">
+    <p></p>
+    <form action="" method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Add</button>
+        <p></p>
+        <button type="submit" class="btn btn-success" style="display: block; margin: 0 auto;">Add</button>
     </form>
+    <p></p>
 {% endblock body %}

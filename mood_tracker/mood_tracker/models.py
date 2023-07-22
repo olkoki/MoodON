@@ -113,7 +113,7 @@ class Task(models.Model):
         
     def status(self):
         if self.is_finished:
-            return 'is_finished'
+            return 'Finished'
         elif self.has_expired():
             return 'Expired'
         else:

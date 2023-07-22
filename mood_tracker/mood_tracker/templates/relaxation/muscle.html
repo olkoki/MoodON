@@ -2,208 +2,201 @@
 
 {% block content %}
 {% load static %}
-
 <style>
-    /* Split the screen in half */
-    .split {
-        height: 100%;
-        width: 50%;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
 
-    /* Control the left side */
-    .left {
-        left: 0;
-        margin-top: 56px;
-        background-color: #9a99f2;
-    }
-
-    /* Control the right side */
-    .right {
-        right: 0;
-        margin-top: 56px;
-        background-color: #ccdcff;
-    }
-
-    .centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-    }
-
-    /* Card styles */
-    .card {
-        width: 110%;
-        max-height: 500px;
-        overflow-y: auto;
-        margin-bottom: 10px;
-        text-align: justify;
-        padding: 10px;
-    }
-
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-    }
-
-    h1 {
-        font-size: 36px;
-        font-weight: bold;
-    }
-
-    h3 {
-        font-size: 24px;
-    }
-
-    
-.instruction {
-    margin-bottom: 50px;
-    padding: 20px;
-    background-color: #9a99f2; /* Tło */
-    color: #fff; /* Kolor tekstu */
-    border-radius: 5px;
-    text-align: justify;
-    width: 600px;
+  /* Split the screen in half */
+  .split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
-.instruction h5 {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+/* Control the left side */
+.left {
+  left: 0;
+  margin-top: 56px;
+  background-color: #9a99f2;
 }
 
-.instruction p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 5px;
+/* Control the right side */
+.right {
+  right: 0;
+  margin-top: 56px;
+  background-color: #ccdcff;
 }
 
-.instruction b {
-    color: #511f73; /* Kolor wyróżnienia */
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
-.instruction hr {
-    margin: 20px 0;
-    border: none;
-    border-top: 1px solid #511f73; /* Kolor linii rozdzielającej */
+.button-menu {
+  border: 3px solid #9a99f2;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  width:auto;
+  height: auto;
+  box-shadow: 0px 4px 8px rgba(154, 153, 242, 0.3);
 }
 
-.instruction i {
-    font-size: 14px;
-    color: #511f73; /* Kolor kursywy */
+.button-menu-pic {
+  width: 175px;
 }
 
-.instruction a {
-    color: #ddd; /* Kolor linków */
-    text-decoration: none;
-}
-.indent-paragraphs {
-    padding-left: 20px; /* Dodaj wcięcie dla paragrafów */
-    background-color: #ccdcff; /* Kolor tła */
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-    color: #8b79d9;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Dodaj cień */
-}
-.title-paragraphs {
-    text-align: justify;
-    background-color: rgba(204, 220, 255, 0.4);
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-    color: #511f73;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width:auto;
+  height: auto;
 }
 
+.card {
+  justify-content: center;
+}
 a.button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #b3beff;
-    color: white;
-    border: none;
-    border-radius: 25%;
-    text-decoration: none;
-    font-size: 18px;
-    transition: background-color 0.5s, color 0.5s, transform 0.5s;
-    position: relative;
-    padding-left: 30px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b3beff;
+  color: white;
+  border: none;
+  border-radius: 25%;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.5s, color 0.5s, transform 0.5s;
+  position: relative;
+  padding-left: 30px;
 }
 
 a.button .icon {
-    position: absolute;
-    top: 45%;
-    left: 5px;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 45%;
+  left: 5px;
+  transform: translateY(-50%);
 }
 
 a.button .icon svg {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-    margin-right: 5px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 a.button:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-    transform: translateX(-5px);
-    box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transform: translateX(-5px);
+  box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+.video-container {
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0px 8px 16px rgba(154, 153, 242, 0.1);
+}
+.instructions {
+  margin-bottom: 5%;
+  padding: 20px;
+  background-color: #ccdcff;
+  color: #000;
+  border-radius: 5px;
+  text-align: justify;
+  width: 600px;
+  line-height: 1.6;
 }
 
-/* Media queries for responsiveness */
-@media screen and (max-width: 768px) {
-        .split {
-            width: 100%;
-        }
+.instructions h5 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
 
-        .right {
-            display: none;
-        }
+.instructions p {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
 
-        .left {
-            margin-top: 100px; /* Adjust the margin for better positioning on smaller screens */
-        }
+.instructions b {
+  color: #511f73;
+}
 
-        .instruction {
-            width: 100%;
-        }
-    }
+.instructions hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #511f73;
+}
+
+.instructions i {
+  font-size: 14px;
+  color: #511f73;
+}
+
+.instructions a {
+  color: #511f73;
+  text-decoration: none;
+}
+
+.indent-paragraphs {
+  font-size: 16px;
+  padding-left: 20px;
+  background-color: #9a99f2;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: #ccdcff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
 
 </style>
+
 <div class="split left">
     <div class="centered">
-        <div class="title">
-            <h1>Progressive Muscle Relaxation</h1>
+        <div class="title" style="margin-top: 10%;">
+        <h1>Progressive Muscle Relaxation</h1>
+        <p></p>
+        <div class="instructions">
+            <h5>Instruction:</h5>
+            <div class="indent-paragraphs">
+                <p><b>Step 1: </b>  Sit or lie down comfortably. Try to avoid any distractions. Start the video if you want. With each step, <b>concentrate on the release of tension.</b></p>
+                <p><b>Step 2: </b> Starting at <b>the feet</b>, curl the toes under and tense the muscles in the foot. Hold for 5 seconds, then slowly release for 10 seconds. </p>
+                <p><b>Step3: </b> Tense the muscles in <b>the lower legs</b>. Hold for 5 seconds, release for 10 seconds. </p>
+                <p><b>Step 4: </b> Tense the muscles in <b>the hips and buttocks</b>. Hold for 5 seconds, release for 10 seconds.  </p>
+                <p><b>Step 5: </b> Tense the muscles in <b>the stomach and chest</b>. Hold for 5 seconds, release for 10 seconds. </p>
+                <p><b>Step 6: </b> Tense the muscles in <b>the shoulders</b>. Hold for 5 seconds, release for 10 seconds. </p>
+                <p><b>Step 7: </b> Tense the muscles in <b>the face</b> (e.g., squeezing eyes shut). Hold for 5 seconds, release for 10 seconds. </p>
+                <p><b>Step 8: </b> Tense the muscles in <b>the hand</b>, creating a fist. Hold for 5 seconds, release for 10 seconds. </p>
+                <p><b>Be careful not to tense to the point of physical pain, and be mindful to take slow, deep breaths throughout the exercise.</b></p>
+         
+            </div>
+            <i>You can read more about the PMR technique <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>here</b></a>.</i>
+            <p></p>
+            
         </div>
-        <hr>
         <a href="/relaxation/" class="button">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
                 </svg>
-                </span>
+            </span>
             Go back
-        </a>
+        </a>  
+        
+        
     </div>
 </div>
 <div class="split right">
-    <div class="centered">
-        <div class="instruction">
-            <h5 style="color: #511f73;">Instruction</h5>
-            <hr>
-            <p>Video in progress</p>
-            <hr>
-            <i>You can read more about the Progressive Muscle Relaxation technique <a href="https://europepmc.org/article/MED/30020610/NBK513238#free-full-text"><b>here</b></a>.</i>
-        </div>  
-    </div>
+  <div class="centered">
+    <video class="video-container" width="700" height="394" controls loop>
+        <source src="{% static '/video/PMR.mp4' %}" type="video/mp4">
+  </div>
 </div>
 {% endblock %}
