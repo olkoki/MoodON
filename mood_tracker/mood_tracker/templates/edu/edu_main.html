@@ -1,0 +1,417 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+
+  /* Split the screen in half */
+  .split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  margin-top: 56px;
+  background-color: #9a99f2;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  margin-top: 56px;
+  background-color: #ccdcff;
+  overflow-y: auto;
+}
+
+.centered {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.btn.btn-link {
+  color: #ccdcff;
+  font-size: 16px;
+  
+}
+.card-header {
+    position: sticky; 
+  align-items: center;
+  background-color: #ccdcff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%
+}
+
+.card-header button {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card-header button:hover {
+  background-color: #ccdcff;;
+  color: #fff;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20%;
+    margin-right: 10%;
+    margin-left: 10%;
+  }
+
+.card {
+  width: 200%;
+  max-width: 200%;
+  margin-bottom: 2px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b3beff;
+    color: white;
+    border: none;
+    border-radius: 25%;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.5s, color 0.5s, transform 0.5s;
+    position: relative;
+    padding-left: 30px;
+}
+
+a.button .icon {
+    position: absolute;
+    top: 45%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+a.button .icon svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+a.button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    transform: translateX(-5px);
+    box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+<div class="split left">
+    <div class="centered">
+        <div class="title">
+        <h1>Welcome to MoodON, {{ request.user.username }}</h1>
+        <p>How are you feeling today?</p>
+        <a href="/dashboard/" class="button">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </span>
+            Go back
+          </a>
+        </div>
+    </div>
+<div class="split right">
+  <div class="centered">
+    <div id="accordion" class="accordion" style="margin-bottom: 20%;">
+        <div class="card">
+          <div class="card-header" id="headingOne" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Emergency | Helplines
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body" style="margin-right: 2%; margin-left: 2%;">
+                <p><b>If you or someone you know is suicidal or have such thoughts, look for the hotline number <a href="https://www.therapyroute.com/article/helplines-suicide-hotlines-and-crisis-lines-from-around-the-world">here.</a> You can quickly look for your country by using <i>Ctrl + F</i> on your keyboard for Windows users or <i>Command + F</i> on Mac keyboard. </b> If someone is in <b>IMMEDIATE danger</b>, please call your local emergency number (e.g. 112 in Denmark).</p>
+              </ul>
+              <p>Helplines, crisis lines, and suicide hotlines lets you to communicate in the way you prefer and at your own pace. They assist you in taking charge and provide a route through which you may discuss issues that you may find too risky to speak face to face.</p>
+              <p>Helplines, crisis lines, and suicide hotlines all share three characteristics:</p>
+              <ul>
+                <li>they are frequently available 24 hours a day, seven days a week</li>
+                <li>they are free of charge</li>
+                <li>they are confidential</li>
+              </ul>
+              <p>If you are in a difficult emotional situation and need to speak with a skilled counselor, calling a helpline, crisis line, or suicide hotline is an excellent method to be heard and receive reliable guidance. <b>You are not alone.</b></p>
+              <p>Below is the list of selected hotlines for some of the countries. If you can't find yours, please check <a href="https://www.therapyroute.com/article/helplines-suicide-hotlines-and-crisis-lines-from-around-the-world"> HELPLINES, SUICIDE HOTLINES, AND CRISIS-LINES FROM AROUND THE WORLD</a> </p>
+              <ul>
+                <li><b>Denmark</b></li>
+                <ul>
+                    <li><b>Livslinien</b> offers services to people in Denmark who are in distress or at risk of suicide. 
+                        <p><b>Tel: 70 201 201</p></b></li>
+                    <li><b>Lev uden Vold - Live Without Violence</b> is a national hotline that offers 24-hour anonymous and free advice to women and men exposed to violence and violence, rape victims, relatives, and professionals who deal with the target group.
+                        <p><b>Tel: 1888</b></p></li>
+                    <li><b>BørneTelefonen - Children's Phone</b> offers 24-hour free and anonymous support to people in Denmark who are facing different life problems.
+                        <p><b>Tel: 116111</b></p></li>
+                    <li><b>Psykiatrifonden, Mental Health Helpline</b> ffers free and confidential advice on all mental health concerns and extend this service to English speakers.
+                        <p><b>Tel: 39 25 25 25</p></b></li>
+                </ul>
+                <p></p>
+                <li><b>Poland</b></li>
+                    <ul>
+                        <li><b>Emotional support helpline</b>, operated by Instytut Psychologii Zdrowia, provides emotional support to adults who are suffering from loneliness, are in a state of psychological crisis, or thinking about committing suicide.
+                            <p><b>Tel: 116123</b></li></p>
+                        <li><b>Całodobowa Linia Wsparcia</b> - In the Support Center for people in a state of mental crisis, ITAKA Foundation psychologists are on duty by phone, e-mail and chat, providing advice and directing callers to the appropriate assistance facility in their region.
+                            <p><b>Tel: 800 70 2222</b></p></li>
+                        <li><b>Telefon zaufania dla dzieci</b>, run by the Empowering Children Foundation. You can share your concerns and problems with the consultants of the Helpline 116 111. The aim of the action is also to improve the well-being, and often - the safety of callers.
+                            <p><b>Tel: 116 111</b></p></li>
+                        <li><b>Centrum Wsparcia Dla Osob W Stanie Kryzysu Psychicznego</b>is available 24/7 to people across Poland who need help, conversation, counseling, and psychological support.
+                            <p><b>Tel: 800 70 2222</b></p></li>
+                    </ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Psychology | Psychiatry | Psychotherapy
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body">
+              <b><h5>What is Psychology?</h5></b>
+              <p>Psychology is the study of people, including how they think, act, react, and interact. It is concerned with every part of behavior as well as the thoughts, feelings, and motivations that underpin them.</p>
+              <b><h6>What is Psychologist? </h6></b>
+              <p>Their job is to help their clients — those suffering from mental illnesses — comprehend how they feel, think, and behave. </p>
+              <p>In general, a psychologist can do diagnoses—the process of determining which specific mental health issue their client is experiencing. </p>
+              <p>They employ psychometric tests, clinical interviews and observations, therapeutic approaches, questionnaires, and exercises as diagnostic instruments. 
+                And, using the Diagnostic and Statistical Manual of Mental Disorders (DSM) criteria, psychologists can examine the outcomes of those investigations to help decide what condition their client has. 
+                After diagnosing the clients, psychologists can create treatment plans that will help them recover from the issues at hand.
+              </p>
+              <b><h5>What is Psychiatry?</h5></b>
+              <p>Psychiatry is the study of mental health problems, including their diagnosis, treatment, and prevention. Psychiatrists are medical professionals who have completed psychiatric training.
+                They frequently mix a broad general caseload with a unique area of expertise and study. </p>
+               <b><h6>What is Psychiatrist?</h6></b>
+                <p>Unlike psychologists and psychotherapists, psychiatrists often do not provide talk therapies, which are interventions that include a lot of talking. 
+                    Rather, psychiatrists focus on addressing the chemical imbalances in the client's brain, which necessitates the use of drugs. 
+                    Before pursuing professional training in psychiatry, a person must be a qualified medical doctor. 
+                    Simply described, the typical process to becoming a psychiatrist would involve attending medical school and then completing psychiatric specialized study.
+                    Their extensive experience in this sector also qualifies doctors to prescribe and handle drugs. 
+                </p>
+                <p>Because they are doctors, they address mental health disorders in a more medical and physical manner, whereas psychologists and psychotherapists focus on non-medical therapies. 
+                    With their extensive knowledge of medications, psychiatrists frequently collaborate with psychologists, particularly when treating clients with more severe mental health concerns. 
+                    Although psychiatrists are less likely to provide talk treatments, they can diagnose clients using the DSM and, if necessary, recommend them to either a psychologist or a psychotherapist, depending on which one is best suited to their requirements.
+                </p>
+              <b><h5>What is Psychotherapy?</h5></b>
+              <p>Individuals, groups, couples, and families all receive psychotherapy. Psychotherapists assist people in overcoming stress, emotional and interpersonal issues, and bad habits.
+                There are many different approaches in psychotherapy:</p>
+                <ul>
+                    <li>cognitive behavioural therapies</li>
+                    <li>psychoanalytic therapies</li>
+                    <li>psychodynamic therapies</li>
+                    <li>systematic and family psychotherapy</li>
+                    <li>arts and play therapies</li>
+                    <li>humanistic and integrative Psychotherapies</li>
+                </ul>
+                <b><h6>What is Psychotherapist?</h6></b>
+                <p>A psychotherapist may be a psychiatrist, psychologist or other mental health professional, who has had further specialist training in psychotherapy.</p>
+                <p>
+                    Their treatment focuses on establishing a connection with their customers and investigating how their prior experiences may have contributed to their current problems. 
+                    Psychotherapists can assist clients in discovering the underlying causes of their thoughts, feelings, and actions. 
+                    Unlike psychiatrists, they teach their customers non-medical techniques to deal with mental health problems. 
+                    Psychotherapists employ a variety of resources, depending on the modality they are trained in. 
+                    They can aid in the rehabilitation process by providing the necessary tools. 
+                </p>
+                <figure>
+                    <img src="{% static 'images/psycho_diagram.png' %}"/>
+                    <figcaption style="font-size: smaller;">How these proffesions differ from each other & how they interact. Source: <a href="https://www.infijoy.com/blog/positive-psychology/psychology-vs-psychiatry-vs-psychotherapy">here.</a></figcaption>
+                </figure>
+                <p>Source: <a href="https://www.infijoy.com/blog/positive-psychology/psychology-vs-psychiatry-vs-psychotherapy">Psychology vs Psychiatry vs Psychotherapy: What's The Difference.</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Do I need proffesional help?
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body">
+              <b>Remember, there's no shame in seeking support, and reaching out to a qualified therapist, counselor, psychologist, or psychiatrist can make a significant difference in improving your mental well-being. They can offer appropriate guidance, support, and treatment tailored to your needs.</b>
+              <p></p>
+              <p>If you are feeling like something is bothering you, that affects or interfere with your daily life for an extended period of time, it's an indication that seeking help from a mental health professional is a wise decision. If you're still not sure about it, try to contact psychologist to talk abouth these things and assess them accordingly.</p>
+              <p>If you are still thinking about making that decision, look at the <b>Warning sings</b> section.</p>
+              <h6>Psychologist, Psychiatrist, and Psychotherapist: Which One is Right for You?</h6>
+              <i>In most circumstances, people cannot contact a psychiatrist directly because a reference from another mental health expert - such as a psychologist, psychotherapist, or even a counselor or GP - is required. </i>
+              <p>However, if you or someone you know wants to (or is intending to) seek help, here are a few things to think about:</p>
+              <ul>
+                <li><b>Severity Levels:</b> Psychiatrists often work with clients who have more serious mental health problems. These are typically issues that are unlikely to be resolved just through conversation therapy. 
+                  If you or a loved one is badly afflicted by such concerns, consulting a psychiatrist may be a better option. 
+                  However, if the problem is small or moderate, a psychologist or a psychotherapist may be more suited, as talk therapies may be sufficient.
+                </li>
+                <p></p>
+                <li>
+                  <b>Do Your Research:</b> Before contacting any mental health providers, think again. And, if you or someone you know is considering seeking treatment from a mental health expert, remember to choose wisely - make sure they are a qualified professional as well as someone you feel comfortable with. 
+                  People should expect to be prescribed medicine when they visit a psychiatrist because they are doctors. 
+                </li>
+                <p></p>
+                <li>
+                  <b>Your Commitment: </b>Stay committed to the process regardless of which of the three specialists you desire to find or engage with.
+                  These treatments will most certainly take your time, money, and effort, depending on the severity of your mental health concerns. 
+                  It is preferable to stick with treatment for the greatest results. And your efforts will almost probably pay off as your mental health improves. 
+                </li>
+              </ul>
+              <p>If you are thinking about looking for help, but you're afraid, that you may don't have enough money, try looking for special programs with help in your area (e.g. mental health foundations, some even offer online counseling).  </p>
+              <p>Source: <a href="https://www.infijoy.com/blog/positive-psychology/psychology-vs-psychiatry-vs-psychotherapy">Psychology vs Psychiatry vs Psychotherapy: What's The Difference.</a> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Warning signs
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body">
+              Early warning symptoms of mental illness differ depending on the conditions, however, there are several common indicators that may indicate the need for additional evaluation and support. 
+              <p><b>It's important to realize that experiencing one or a few of these symptoms does not necessarily indicate that you have a mental illness; nevertheless, if you or someone you know is experiencing multiple of these symptoms on a regular basis, obtaining professional help is advised. </b></p>
+              <p>Here are a few early warning signs to keep an eye out for:</p>
+              <ul>
+                <li><b>Changes in Mood:</b>  Frequent mood swings, unexplained anger, sadness, or irritability that seem disproportionate to the situation.</li>
+                <li><b>Withdrawal:</b> A tendency to isolate oneself and withdraw from friends, family, and social activities that were once enjoyed.</li>
+                <li><b>Difficulty Concentrating:</b> Trouble focusing, making decisions, or remembering things that were previously manageable.</li>
+                <li><b>Changes in Sleep Patterns:</b> Insomnia or sleeping too much, especially when it disrupts daily functioning.</li>
+                <li><b>Appetite Changes:</b> Significant changes in appetite, either overeating or loss of appetite.</li>
+                <li><b>Loss of Interest:</b> Losing interest or pleasure in activities that used to be enjoyable.</li>
+                <li><b>Fatigue or Low Energy:</b> Feeling constantly tired or lacking energy, even without engaging in physically demanding activities.</li>
+                <li><b>Feeling of Hopelessness:</b> Persistent feelings of hopelessness or worthlessness.</li>
+                <li><b>Unexplained Aches and Pains:</b> Physical complaints without any apparent medical cause.</li>
+                <li><b>Increased Substance Use:</b> Turning to alcohol, drugs, or other substances to cope with emotions or stress.</li>
+                <li><b>Unusual Thoughts:</b> Having strange or unrealistic beliefs, or experiencing perceptual disturbances (hallucinations).</li>
+                <li><b>Troubled Thinking:</b> Difficulty organizing thoughts, speaking coherently, or connecting ideas logically.</li>
+                <li><b>Heightened Sensitivity:</b> Becoming unusually sensitive to sights, sounds, smells, or touch.</li>
+                <li><b>Increased Agitation:</b> Restlessness, pacing, or heightened agitation.</li>
+                <li><b>Neglecting Responsibilities:</b> Neglecting personal hygiene, work, or other responsibilities.</li>
+                <li><b>Lack of Emotion:</b> Feeling emotionally numb or disconnected.</li>
+                <li><b>Uncharacteristic Risk-Taking:</b> Engaging in risky behaviors without considering consequences.</li>
+              </ul>
+              <i>It's essential to remember that mental health issues are complex and can manifest differently in different individuals. If you or someone you know is experiencing these signs and they are causing distress or impairment in daily life, it's important to reach out to a mental health professional for a proper assessment and appropriate support. Early intervention can make a significant difference in managing and treating mental health conditions effectively.</i>
+              <hr>
+              <p><b>When early signs of mental illness are ignored or left untreated, the condition may progress, leading to more developed or severe symptoms. The specific signs of more developed mental illness can vary depending on the type of mental health condition, but some common indicators may include:</b></p>
+              <ul>
+                <li><b>Intense and Persistent Symptoms: </b>Symptoms that were initially mild or occasional become more intense, frequent, and persistent.</li>
+                <li><b>Severe Mood Swings: </b>Mood swings become more severe and disruptive to daily life, with heightened periods of depression, anxiety, or mania.</li>
+                <li><b>Social Impairment: </b>Social withdrawal increases, leading to significant difficulties in maintaining relationships and participating in social activities.</li>
+                <li><b>Deteriorating Work or Academic Performance: </b>A decline in work or academic performance, difficulty concentrating, and struggling to complete tasks.</li>
+                <li><b>Increased Emotional Instability: </b>Emotional responses become unpredictable and intense, making it challenging to regulate emotions.</li>
+                <li><b>Isolation and Alienation: </b>The individual may feel isolated, misunderstood, or alienated from others due to the progression of their symptoms.</li>
+                <li><b>Self-Harm or Suicidal Ideation: </b>A person may engage in self-harming behaviors or have persistent thoughts of suicide.</li>
+                <li><b>Disordered Thinking: </b>More severe disorganization in thoughts, speech, or cognitive processes.</li>
+                <li><b>Loss of Touch with Reality: </b>For conditions like schizophrenia, delusions, hallucinations, or disorganized thinking become more pronounced, leading to a disconnect from reality.</li>
+                <li><b>Impaired Functioning: </b>Daily functioning is significantly impacted, leading to difficulties in maintaining employment, managing personal finances, or performing daily activities independently.</li>
+                <li><b>Physical Health Issues: </b>Neglect of physical health and self-care may lead to worsening physical health conditions.</li>
+                <li><b>Substance Abuse: </b>Increased reliance on drugs or alcohol as a means of coping with symptoms.</li>
+                <li><b>Aggressive or Hostile Behavior: </b>Agitation, aggression, or hostility towards others may become more frequent.</li>
+                <li><b>Legal and Financial Problems: </b>The individual may face legal issues or financial difficulties due to impaired judgment or reckless behavior.</li>
+              </ul>
+              <b>It's essential to emphasize that mental health conditions can be effectively managed, even if the early signs were ignored. Seeking professional help at any stage is crucial. Even in more developed cases, there are treatment options available that can significantly improve a person's quality of life. If you or someone you know is experiencing any of these signs, it's important to reach out to a mental health professional for assessment and appropriate care. Early intervention and treatment can lead to better outcomes and increased well-being.</b>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Support
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body">
+              Example
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingSix" style="background-color: #9a99f2;">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                Other
+              </button>
+            </h5>
+          </div>
+          <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion" style="background-color: #e6f2ff;">
+            <div class="card-body">
+              Example
+            </div>
+          </div>
+        </div>
+        <p></p>
+        
+    </div>
+  </div>
+</div>
+
+<script>
+    // JavaScript code to handle collapsible behavior
+  document.addEventListener('DOMContentLoaded', function () {
+    const accordionButtons = document.querySelectorAll('[data-toggle="collapse"]');
+    const collapseElements = document.querySelectorAll('.collapse');
+
+    accordionButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        // Collapse all open cards except the current one
+        const targetCollapse = document.querySelector(button.dataset.target);
+        collapseElements.forEach((collapse) => {
+          if (collapse !== targetCollapse) {
+            collapse.classList.remove('show');
+          }
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}

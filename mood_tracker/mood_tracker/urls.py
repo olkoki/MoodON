@@ -48,7 +48,7 @@ urlpatterns = [
     path('relaxation/', TemplateView.as_view(template_name='relaxation/relaxation.html'), name='relaxation'),
     path('relaxation/breathing/', TemplateView.as_view(template_name='relaxation/breathing.html'), name='breathing'),
     path('relaxation/imagery/', TemplateView.as_view(template_name='relaxation/imagery.html'), name='imagery'),
-    path('relaxation/muscle/', TemplateView.as_view(template_name='relaxation/muscle.html'), name='muscle.html'),
+    path('relaxation/muscle/', TemplateView.as_view(template_name='relaxation/muscle.html'), name='muscle'),
     
     #path('meds-tracking/', TemplateView.as_view(template_name='meds/meds.html'), name='meds'),
     path('meds-tracking/add_medicine/', views.MedicineCreate.as_view(), name='add_med'),
@@ -76,6 +76,8 @@ urlpatterns = [
     path('daily-routine/<int:pk>/delete/', views.DailyRoutineDelete.as_view(), name='routine_delete'),
     path('daily-routine/<int:pk>/finish/', views.mark_as_done, name='finish_routine'),
     path('daily-routine/<int:pk>/unfinish/', views.mark_undone, name='unfinish_routine'),
+
+    path('psychoeducation/', TemplateView.as_view(template_name='edu/edu_main.html'), name='edu'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
