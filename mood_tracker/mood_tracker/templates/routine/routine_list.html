@@ -148,13 +148,63 @@
         .bi-check-square:hover {
             background-color: #53c259b4;
         }
+        .instructions {
+            margin-bottom: 5%;
+            padding: 20px;
+            background-color: #ccdcff;
+            color: #000;
+            border-radius: 5px;
+            text-align: justify;
+            width: 600px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .instructions h5 {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .instructions p {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .instructions b {
+            color: #511f73;
+        }
+
+        .instructions hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #511f73;
+        }
+
+        .instructions i {
+            font-size: 14px;
+            color: #511f73;
+        }
+
+        .instructions a {
+            color: #511f73;
+            text-decoration: none;
+        }
     </style>
 </head>
 <div class="split left">
     <div class="centered">
         <div class="title">
-            <h1>Example</h1>
-            <p>Example</p>
+            <h1>Hey, {{ request.user.username }}</h1>
+            <p>Do you want to set up your daily routine?</p>
+            <hr>
+        </div>
+        <div class="instructions">
+            <p>Here you can create and modify your daily schedule according to your own needs.</p>
+            <p><i>For some people, even completing the lightest of the tasks may be a problem (e.g. getting out of the bed or brushing your teeth). Some people may need a place to save what they are planning for the day, like more general things (e.g. doing groceries).</i></p>
+            <p>Here is the place for every one of them. <b>Feel free to add whatever you need to your daily routine</b></p>
+            <p>You can add different tasks, mark and un-mark them as done, edit them by clicking on the title or deleting them when you don't need to repeat them for next days.</p>
+            <p><i>Try it and see what it feel like, when you are done with whatever you planned for today!</i></p>
         </div>
     </div>
 </div>

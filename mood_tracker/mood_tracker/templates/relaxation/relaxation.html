@@ -99,13 +99,63 @@ a.button:hover {
     transform: translateX(-5px);
     box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
 }
+.instructions {
+  margin-bottom: 5%;
+  padding: 20px;
+  background-color: #ccdcff;
+  color: #000;
+  border-radius: 5px;
+  text-align: justify;
+  width: 600px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.instructions h5 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.instructions p {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.instructions b {
+  color: #511f73;
+}
+
+.instructions hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #511f73;
+}
+
+.instructions i {
+  font-size: 14px;
+  color: #511f73;
+}
+
+.instructions a {
+  color: #511f73;
+  text-decoration: none;
+}
 </style>
 
 <div class="split left">
     <div class="centered">
         <div class="title">
-            <h1>Hi, {{ request.user.username }}</h1>
-            <p>Do you want to try one of the relaxation techniques?</p>    
+          <h1>Hi, {{ request.user.username }}</h1>
+          <p>Do you want to try one of the relaxation techniques?</p>
+          <hr>
+        </div>
+        <div class="instructions">
+          <p>Relaxation techniques are therapeutic exercises that help people <b>reduce tension and anxiety</b> both physically and psychologically. </p>    
+          <p><i>Strategies can be used as complementary therapies in healthcare settings to treat individuals suffering from many sorts of distress, including but not limited to anxiety, sadness, pain, and stress.</i> </p>
+          <p>Relaxation techniques include a variety of methods for <b>increasing emotions of calm and decreasing sensations of tension. </b> 
+            Stress can cause physiological responses such as increased heart rate, shortness of breath, and muscle tightness, in addition to the subjective emotional experience; <b>relaxation techniques can help reduce these symptoms.</b></p>
+          <p>There are numerous relaxing practices that can be learned through self-help.</p>
         </div>
         <hr>
         <a href="/dashboard/" class="button">

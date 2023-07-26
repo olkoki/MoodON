@@ -124,34 +124,74 @@
         }
 
         .bi-trash-fill:hover {
-            /* Zmiana koloru ikony po najechaniu kursorem */
-            fill: #FF0000; /* Czerwony kolor wypełnienia ikony */
+            fill: #FF0000;
         }
 
         .nav-link-custom {
             display: flex;
             align-items: center;
             text-decoration: none;
-            color: #333; /* Kolor tekstu */
+            color: #333;
             font-size: larger;
             background-color: none;
-            transition: color 0.2s, background-color 0.2s; /* Płynne przejście koloru tekstu i tła podczas zmiany */
-            padding: 10px; /* Dodatkowy padding dla lepszego wyglądu */
-            border-radius: 8px; /* Zaokrąglenie rogów */
+            transition: color 0.2s, background-color 0.2s;
+            padding: 10px;
+            border-radius: 8px;
         }
 
-        /* Styl dla ikony SVG */
         .nav-link-custom svg {
-            width: 25px; /* Szerokość ikony */
-            height: 25px; /* Wysokość ikony */
-            margin-right: 5px; /* Odstęp między ikoną a tekstem */
+            width: 25px;
+            height: 25px;
+            margin-right: 5px;
         }
         
         .nav-link-custom:hover {
-            /* Efekt hover */
-            background-color: #ccdcff; /* Kolor tła linku po najechaniu kursorem */
-            color: #333; /* Domyślny kolor tekstu */
-            text-decoration: none; /* Brak podkreślenia */
+            background-color: #ccdcff; 
+            color: #333;
+            text-decoration: none;
+        }
+
+        .instructions {
+            margin-bottom: 5%;
+            padding: 20px;
+            background-color: #ccdcff;
+            color: #000;
+            border-radius: 5px;
+            text-align: justify;
+            width: 600px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .instructions h5 {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .instructions p {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .instructions b {
+            color: #511f73;
+        }
+
+        .instructions hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #511f73;
+        }
+
+        .instructions i {
+            font-size: 14px;
+            color: #511f73;
+        }
+
+        .instructions a {
+            color: #511f73;
+            text-decoration: none;
         }
 
     </style>
@@ -159,8 +199,15 @@
 <div class="split left">
     <div class="centered">
         <div class="title">
-            <h1>Example</h1>
-            <p>Example</p>
+            <h1>{{ request.user.username }}'s medicine list</h1>
+            <p>Have you taken your meds today?</p>
+        </div>
+        <div class="instructions">
+            <p><b>Here you can keep track of your medicines.</b></p>
+            <p>Whatever pills you have to take, you can add them to your list here, edit or delete them if needed, add description, so you can see whatever is important about them <i>(what is their purpose, or maybe you'd want to note the side effects that you observed).</i></p>
+            <p>You can also note how big is your dose and what is the general amount that is in the pack.</p>
+            <p><b>After taking your meds, you can click the button <i>Taken</i>, so the amount of the medicine will be updating.</b></p>
+            <p><b>It means you won't be suprised by lack of your medicine anymore!</b></p>
         </div>
     </div>
 </div>

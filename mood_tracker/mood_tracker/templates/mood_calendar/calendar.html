@@ -301,7 +301,7 @@
 .split {
   height: 100%;
   width: 50%;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   top: 0;
   overflow-x: hidden;
@@ -310,6 +310,7 @@
 
 /* Control the left side */
 .left {
+  overflow-y: auto;
   left: 0;
   margin-top: 56px;
   background-color: #9a99f2;
@@ -319,6 +320,10 @@
 .right {
   right: 0;
   margin-top: 56px;
+  background-color: #ccdcff;
+  position: fixed;
+}
+html {
   background-color: #ccdcff;
 }
 
@@ -340,14 +345,14 @@
 .card {
   justify-content: center;
   width: 500px;
-  background-color: #ccdcff;
+  background-color: #e6f2ff;
 }
 
 .card-body {
   left: 50%;
   top: 50%;
   scale: 90%;
-  background-color: #ccdcff;
+  background-color: #e6f2ff;
 }
 
 a.button {
@@ -362,6 +367,7 @@ a.button {
     transition: background-color 0.5s, color 0.5s, transform 0.5s;
     position: relative;
     padding-left: 30px;
+    margin-top: 10px;
 }
 
 a.button .icon {
@@ -387,7 +393,7 @@ a.button:hover {
 
 img {
   display: block;
-  max-width: 450px;
+  max-width: 100%;
   height: auto;
   margin-top: 5%;
   margin-bottom: 5%;
@@ -426,107 +432,171 @@ img {
   background-color: #9a99f2;;
   color: #fff;
 }
+
 .accordion {
-    border: 1px solid #9a99f2;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Wyśrodkuje elementy w pionie */
+    align-items: center; /* Wyśrodkuje elementy w poziomie */
   }
+
 .accordion .card {
+  width: 100%; /* Szerokość karty w accordion */
   margin-bottom: 2px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.instructions {
+  margin-bottom: 5%;
+  padding: 20px;
+  background-color: #ccdcff;
+  color: #000;
+  border-radius: 5px;
+  text-align: justify;
+  width: 600px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.instructions h5 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.instructions p {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.instructions b {
+  color: #511f73;
+}
+
+.instructions hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #511f73;
+}
+
+.instructions i {
+  font-size: 14px;
+  color: #511f73;
+}
+
+.instructions a {
+  color: #511f73;
+  text-decoration: none;
+}
+
+.indent-paragraphs {
+  font-size: 16px;
+  padding-left: 20px;
+  background-color: #9a99f2;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: #ccdcff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
 </style>
 
 
 <div class="split left">
-  <div class="centered">
+  <div class="centered" style="margin-top: 40%;">
     <div class="title">
       <h1>Welcome to the Mood Tracker!</h1>
       <p>How are you feeling today?</p>
-      <div id="accordion" class="accordion">
-        <div class="card">
-          <div class="card-header" id="headingOne" style="background-color: #ddddfc;">
-            <h5 class="mb-0">
-              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Happiness stats
-              </button>
-            </h5>
-          </div>
-          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="background-color: #ccdcff;">
-            <div class="card-body">
-              <img src="{{ plot_month_happiness }}" alt="Happiness" />
-            </div>
-          </div>
+    </div>
+    <div class="instructions">
+      <p>Here you have access to the calendar, where you can save how have you been feeling. You can set the levels of <b>happiness, anger, anxiety, energy and motivation</b> and add a description of what happened that day. It helps you find the patterns and monitore your mood on a daily basis.</p>
+      <p>Double click on <i>your mood</i> on the day to save your mood or see how did you feel on another day.</p>
+      <hr>
+      <p><i>If you want to check your general overwiev, you can click on the buttons below to see your mood statistics for the current month. </i></p>
+    </div>
+    <div id="accordion" class="accordion" style="margin-bottom: 20%;">
+      <div class="card">
+        <div class="card-header" id="headingOne" style="background-color: #ccdcff;">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              Happiness stats
+            </button>
+          </h5>
         </div>
-        <div class="card">
-          <div class="card-header" id="headingTwo" style="background-color: #ddddfc;">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Anger stats
-              </button>
-            </h5>
-          </div>
-          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="background-color: #ccdcff;">
-            <div class="card-body">
-              <img src="{{ plot_month_anger }}" alt="Anger" />
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header" id="headingThree" style="background-color: #ddddfc;">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Anxiety stats
-              </button>
-            </h5>
-          </div>
-          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="background-color: #ccdcff;">
-            <div class="card-body">
-              <img src="{{ plot_month_anxiety }}" alt="Anxiety" />
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header" id="headingFour" style="background-color: #ddddfc;">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                Energy stats
-              </button>
-            </h5>
-          </div>
-          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="background-color: #ccdcff;">
-            <div class="card-body">
-              <img src="{{ plot_month_energy }}" alt="Energy" />
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header" id="headingFive" style="background-color: #ddddfc;">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                Motivation stats
-              </button>
-            </h5>
-          </div>
-          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="background-color: #ccdcff;">
-            <div class="card-body">
-              <img src="{{ plot_month_motivation }}" alt="Motivation" />
-            </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="background-color: #e6f2ff;">
+          <div class="card-body">
+            <img src="{{ plot_month_happiness }}" alt="Happiness" />
           </div>
         </div>
       </div>
+      <div class="card">
+        <div class="card-header" id="headingTwo" style="background-color: #ccdcff;">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Anger stats
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="background-color: #e6f2ff;">
+          <div class="card-body">
+            <img src="{{ plot_month_anger }}" alt="Anger" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingThree" style="background-color: #ccdcff;">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Anxiety stats
+            </button>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="background-color: #e6f2ff;">
+          <div class="card-body">
+            <img src="{{ plot_month_anxiety }}" alt="Anxiety" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingFour" style="background-color: #ccdcff;">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Energy stats
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="background-color: #e6f2ff;">
+          <div class="card-body">
+            <img src="{{ plot_month_energy }}" alt="Energy" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingFive" style="background-color: #ccdcff;">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              Motivation stats
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="background-color: #e6f2ff;">
+          <div class="card-body">
+            <img src="{{ plot_month_motivation }}" alt="Motivation" />
+          </div>
+        </div>
+      </div>
+      <p></p>
+      <a href="/dashboard/" class="button">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+            </svg>
+          </span>
+        Go back
+      </a>
     </div>
-    <hr>
-    <a href="/dashboard/" class="button">
-      <span class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M11.854 4.646a.5.5 0 0 1 0 .708L8.207 9l3.647 3.646a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
-          </svg>
-        </span>
-      Go back
-    </a>
+    
   </div>
 </div>
 <div class="split right">
