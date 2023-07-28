@@ -6,15 +6,11 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.timezone import timedelta
 
-import redis
-
 from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from six import python_2_unicode_compatible
-
-import arrow
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)

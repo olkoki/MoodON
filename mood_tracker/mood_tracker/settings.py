@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'crispy_bootstrap4',
-    'django_cron',
 ]
 
 MIDDLEWARE = [
