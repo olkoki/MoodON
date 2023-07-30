@@ -105,6 +105,48 @@
     color: #ddd; /* Kolor linków */
     text-decoration: none;
 }
+
+.instruction1 {
+    margin-bottom: 50px;
+    padding: 20px;
+    background-color: #9a99f2; /* Tło */
+    color: #fff; /* Kolor tekstu */
+    border-radius: 5px;
+    text-align: justify;
+    width: 600px;
+}
+
+.instruction1 h5 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.instruction1 p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.instruction1 b {
+    color: #511f73; /* Kolor wyróżnienia */
+}
+
+.instruction1 hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #511f73; /* Kolor linii rozdzielającej */
+}
+
+.instruction1 i {
+    font-size: 14px;
+    color: #511f73; /* Kolor kursywy */
+}
+
+.instruction1 a {
+    color: #ddd; /* Kolor linków */
+    text-decoration: none;
+}
 .indent-paragraphs {
     padding-left: 20px; /* Dodaj wcięcie dla paragrafów */
     background-color: #ccdcff; /* Kolor tła */
@@ -159,24 +201,23 @@ a.button:hover {
     box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
 }
 
-/* Media queries for responsiveness */
-@media screen and (max-width: 768px) {
-        .split {
-            width: 100%;
-        }
+@media (max-width: 980px) {
+  .instruction1 {
+    max-width: 50%; 
+    margin: 0 auto;
+    margin-top: 50%;
+    margin-bottom: 10%;
+    overflow-y: auto;
+  }
+  
+  .title {
+    max-width: 90%; /* Adjusted width for better responsiveness */
+    margin: 0 auto;
+    margin-top: 5%; /* Adjusted margin for better positioning */
+  }
 
-        .right {
-            display: none;
-        }
+}
 
-        .left {
-            margin-top: 100px; /* Adjust the margin for better positioning on smaller screens */
-        }
-
-        .instruction {
-            width: 100%;
-        }
-    }
 
 </style>
 <div class="split left">
@@ -204,7 +245,7 @@ a.button:hover {
 </div>
 <div class="split right">
     <div class="centered">
-        <div class="instruction">
+        <div class="instruction1">
             <h5 style="color: #511f73;">Instruction</h5>
             <hr>
             <p><b>Step 1:</b>  Sit or lie down comfortably. Try to avoid any distractions.</p>

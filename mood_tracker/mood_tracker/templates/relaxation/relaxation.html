@@ -141,6 +141,31 @@ a.button:hover {
   color: #511f73;
   text-decoration: none;
 }
+@media (max-width: 980px) {
+    .button-menu-pic {
+      width: 100%;
+    }
+    .button-menu {
+      width: 100%;
+    }
+    .menu-container {
+      width: 100%;
+      flex-direction: column;
+      scale: 80%;
+      margin-top: -15%;
+      margin-bottom: -30%;
+    }
+    .instructions {
+      max-width: 50%;
+      margin: 0 auto;
+      margin-bottom: 5%;
+    }
+    .title {
+      max-width: 60%;
+      margin: 0 auto;
+      margin-top: 20%;
+    }
+}
 </style>
 
 <div class="split left">
@@ -148,7 +173,6 @@ a.button:hover {
         <div class="title">
           <h1>Hi, {{ request.user.username }}</h1>
           <p>Do you want to try one of the relaxation techniques?</p>
-          <hr>
         </div>
         <div class="instructions">
           <p>Relaxation techniques are therapeutic exercises that help people <b>reduce tension and anxiety</b> both physically and psychologically. </p>    
@@ -157,7 +181,6 @@ a.button:hover {
             Stress can cause physiological responses such as increased heart rate, shortness of breath, and muscle tightness, in addition to the subjective emotional experience; <b>relaxation techniques can help reduce these symptoms.</b></p>
           <p>There are numerous relaxing practices that can be learned through self-help.</p>
         </div>
-        <hr>
         <a href="/dashboard/" class="button">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
