@@ -4,8 +4,8 @@
 {% load static %}
 <style>
 
-  /* Split the screen in half */
-  .split {
+/* Split the screen in half */
+.split {
   height: 100%;
   width: 50%;
   position: fixed;
@@ -20,6 +20,8 @@
   left: 0;
   margin-top: 56px;
   background-color: #9a99f2;
+  flex: 1;
+  max-width: 50%;
 }
 
 /* Control the right side */
@@ -27,6 +29,8 @@
   right: 0;
   margin-top: 56px;
   background-color: #ccdcff;
+  flex: 1;
+  max-width: 50%;
 }
 
 .centered {
@@ -42,8 +46,8 @@
   padding: 5px;
   border-radius: 5px;
   text-align: center;
-  width:auto;
-  height: auto;
+  width:100%;
+  height: 100%;
   box-shadow: 0px 4px 8px rgba(154, 153, 242, 0.3); 
 }
 
@@ -54,18 +58,41 @@
 
 
 .button-menu-pic {
-  width: 175px;
+  width: 10.9375em;
+  height: auto;
 }
 
 .menu-container {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 10px;
   padding: 10px;
   border-radius: 5px;
-  width:auto;
+  width:70%;
   height: auto;
 }
+
+@media (max-width: 980px) {
+    .button-menu-pic {
+      width: 100%;
+    }
+    .button-menu {
+      width: 100%;
+    }
+    .menu-container {
+      width: 100%;
+    }
+    .menu-container {
+      flex-direction: column;
+    }
+    .menu {
+      scale: 80%;
+      margin-top: 300%;
+      margin-bottom: 0%;
+    }
+}
+
 </style>
 
 <div class="split left">
@@ -73,38 +100,39 @@
         <div class="title">
         <h1>Welcome to MoodON, {{ request.user.username }}</h1>
         <p>How are you feeling today?</p>
-        <img class="profile-picture" src="{{request.user.profile.profile_picture.url}}" >
 
         </div>
     </div>
 <div class="split right">
   <div class="centered">
-    <div class="menu-container">
-      <div class="button-menu">
-        <a href="/calendar/"><img class="button-menu-pic" src="{% static '/images/calendar1.png' %}" alt="Mood Tracker"></a>
-        <p> Mood Tracker </p>
+    <div class="menu">
+      <div class="menu-container">
+        <div class="button-menu">
+          <a href="/calendar/"><img class="button-menu-pic" src="{% static '/images/calendar1.png' %}" alt="Mood Tracker"></a>
+          <p> Mood Tracker </p>
+        </div>
+        <div class="button-menu">
+          <a href="/relaxation/"><img class="button-menu-pic" src="{% static '/images/breathing.png' %}" alt="Breathing exercises"></a>
+          <p>Relaxation</p>
+        </div>
+        <div class="button-menu">
+          <a href="/psychoeducation/"><img class="button-menu-pic" src="{% static 'images/education.png' %}"></a>
+          <p>Psychoeductaion</p>
+        </div>
       </div>
-      <div class="button-menu">
-        <a href="/relaxation/"><img class="button-menu-pic" src="{% static '/images/breathing.png' %}" alt="Breathing exercises"></a>
-        <p>Relaxation</p>
-      </div>
-      <div class="button-menu">
-        <a href="/psychoeducation/"><img class="button-menu-pic" src="{% static 'images/education.png' %}"></a>
-        <p>Psychoeductaion</p>
-      </div>
-    </div>
-    <div class="menu-container">
-      <div class="button-menu">
-        <a href="/daily-routine/"><img class="button-menu-pic" src="{% static 'images/Schedule.png' %}" alt="Daily Routine"></a>
-        <p>Daily routine</p>
-      </div>
-      <div class="button-menu">
-        <a href="/to-do/"><img class="button-menu-pic" src="{% static 'images/todo.png' %}" alt="to-do"></a>
-        <p> To-do</p>
-      </div>
-      <div class="button-menu">
-        <a href="/meds-tracking/"><img class="button-menu-pic" src="{% static 'images/meds.png' %}" alt="Meds-tracking"></a>
-        <p>Meds-tracking</p>
+      <div class="menu-container">
+        <div class="button-menu">
+          <a href="/daily-routine/"><img class="button-menu-pic" src="{% static 'images/Schedule.png' %}" alt="Daily Routine"></a>
+          <p>Daily routine</p>
+        </div>
+        <div class="button-menu">
+          <a href="/to-do/"><img class="button-menu-pic" src="{% static 'images/todo.png' %}" alt="to-do"></a>
+          <p> To-do</p>
+        </div>
+        <div class="button-menu">
+          <a href="/meds-tracking/"><img class="button-menu-pic" src="{% static 'images/meds.png' %}" alt="Meds-tracking"></a>
+          <p>Meds-tracking</p>
+        </div>
       </div>
     </div>
     <a href="https://storyset.com/"> Illustrations by Storyset</a>
