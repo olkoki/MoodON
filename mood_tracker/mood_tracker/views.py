@@ -2,8 +2,8 @@
 from typing import Any
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsReminderForm, MedsUpdateForm, RoutineCreateForm, RoutineUpdateForm
-from .models import Profile, Mood, Task, Medicine, MedsReminders, Notification, DailyRoutine
+from .forms import CreateUserForm, CustomerForm, ReminderCreateForm, ReminderUpdateForm, MedicineForm, MedsUpdateForm, RoutineCreateForm, RoutineUpdateForm
+from .models import Profile, Mood, Task, Medicine, DailyRoutine
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib import messages
@@ -371,15 +371,6 @@ class MedicineUpdate(LoginRequiredMixin, UpdateView):
 class MedicineDelete(LoginRequiredMixin, DeleteView):
     model = Medicine
     success_url = reverse_lazy('info_meds')
-
-class MedcicineReminder(LoginRequiredMixin, CreateView):
-    model = Notification
-    form_class = MedsReminderForm
-    template_name = 'meds/add_reminder.html'
-    success_url = reverse_lazy('info_meds')
-
-    def form_valid(self, form):
-        return super().form_valid(form)
 
 def mark_taken(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
