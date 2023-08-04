@@ -57,13 +57,13 @@ urlpatterns = [
     path('meds-tracking/mark-taken/<int:medicine_id>/', views.mark_taken, name='mark_taken'),
     path('meds-tracking/', views.info_meds, name='info_meds'),
 
-    path('to-do/', views.ReminderList.as_view(), name='info_tasks'),
+    #path('to-do/', views.ReminderList.as_view(), name='info_tasks'),
     path('to-do/task/add/', views.ReminderCreate.as_view(), name='task_add'),
     path('to-do/task-update/<int:pk>/', views.ReminderUpdate.as_view(), name='task_update'),
     path('to-do/task/<int:pk>/delete/', views.ReminderDelete.as_view(), name='task_delete'),
     path('to-do/task/<int:pk>/finish/', views.finish_task, name='finish_task'),
     path('to-do/task/<int:pk>/unfinish/', views.unfinish_task, name='unfinish_task'),
-    #path('to-do/', views.info_tasks, name='info_tasks'),
+    path('to-do/', views.info_tasks, name='info_tasks'),
 
     #path('daily-routine/', views.DailyRoutineList.as_view(), name='routine_list'),
     path('daily-routine/add/', views.DailyRoutineCreate.as_view(), name='routine_add'),
