@@ -86,6 +86,7 @@ class Mood(models.Model):
     description = models.CharField(max_length=200, default='Hello world')
 
 class Task(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
@@ -146,6 +147,7 @@ class Notification(models.Model):
     time = models.TimeField()
 
 class DailyRoutine(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=200)
     is_finished = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)

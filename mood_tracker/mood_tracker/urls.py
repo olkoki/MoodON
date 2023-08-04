@@ -57,18 +57,13 @@ urlpatterns = [
     path('meds-tracking/mark-taken/<int:medicine_id>/', views.mark_taken, name='mark_taken'),
     path('meds-tracking/', views.info_meds, name='info_meds'),
 
-    path('to-do/', views.ReminderList.as_view(), name='tasks'),
+    path('to-do/', views.ReminderList.as_view(), name='info_tasks'),
     path('to-do/task/add/', views.ReminderCreate.as_view(), name='task_add'),
     path('to-do/task-update/<int:pk>/', views.ReminderUpdate.as_view(), name='task_update'),
     path('to-do/task/<int:pk>/delete/', views.ReminderDelete.as_view(), name='task_delete'),
     path('to-do/task/<int:pk>/finish/', views.finish_task, name='finish_task'),
     path('to-do/task/<int:pk>/unfinish/', views.unfinish_task, name='unfinish_task'),
-
-    # urls for API
-    path('api/', views.ReminderListAPI.as_view()),
-    path('api/<int:pk>/', views.ReminderDetailAPI.as_view()),
-    path('api/add/', views.ReminderCreateAPI.as_view()),
-    path('api/<int:pk>/finish/', views.finish_task_API),
+    #path('to-do/', views.info_tasks, name='info_tasks'),
 
     path('daily-routine/', views.DailyRoutineList.as_view(), name='routine_list'),
     path('daily-routine/add/', views.DailyRoutineCreate.as_view(), name='routine_add'),
@@ -76,6 +71,7 @@ urlpatterns = [
     path('daily-routine/<int:pk>/delete/', views.DailyRoutineDelete.as_view(), name='routine_delete'),
     path('daily-routine/<int:pk>/finish/', views.mark_as_done, name='finish_routine'),
     path('daily-routine/<int:pk>/unfinish/', views.mark_undone, name='unfinish_routine'),
+    #path('daily-routine/', views.routine_list, name='routine_list'),
 
     path('psychoeducation/', TemplateView.as_view(template_name='edu/edu_main.html'), name='edu'),
 ]

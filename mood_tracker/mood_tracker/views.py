@@ -286,64 +286,38 @@ class ReminderCreate(LoginRequiredMixin, CreateView):
     model = Task
     form_class = ReminderCreateForm
     template_name = 'to-do/task_add.html'
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('info_tasks')
 
     def form_valid(self, form):
+        form.instance.user = self.request.user 
         return super().form_valid(form)
 
 class ReminderUpdate(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = ReminderUpdateForm
     template_name = 'to-do/task_update.html'
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('info_tasks')
 
 class ReminderDelete(LoginRequiredMixin, DeleteView):
     model = Task
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('info_tasks')
 
 def finish_task(request, pk):
     task = Task.objects.get(id=pk)
     task.is_finished = True
     task.save()
 
-    return redirect('tasks')
+    return redirect('info_tasks')
 
 def unfinish_task(request, pk):
     task = Task.objects.get(id=pk)
     task.is_finished = False
     task.save()
-    return redirect('tasks')
+    return redirect('info_tasks')
 
-# views for API
-class ReminderCreateAPI(generics.CreateAPIView):
-    serializer_class = serializers.ReminderCreateSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-class ReminderListAPI(generics.ListAPIView):
-    serializer_class = serializers.ReminderListSerializer
-
-    def get_queryset(self):
-        return Task.objects.filter(owner=self.request.user).order_by(F('due_date').asc(nulls_last=True))
-
-
-class ReminderDetailAPI(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = serializers.ReminderDetailSerializer
-
-
-@api_view(['GET'])
-def finish_task_API(request, pk):
-
-    task = Task.objects.get(id=pk)
-    task.is_finished = True
-    task.save()
-
-    context = {
-        'code': 'task_finished'
-    }
-    return Response(context)
+def info_tasks(request):
+    tasks = Task.objects.filter(user=request.user) 
+    return render(request, 'to-do/task_list.html', {'tasks': tasks})
 
 class MedicineList(LoginRequiredMixin, ListView):
     model = Medicine
@@ -373,15 +347,6 @@ class MedicineDelete(LoginRequiredMixin, DeleteView):
     model = Medicine
     success_url = reverse_lazy('info_meds')
 
-class MedcicineReminder(LoginRequiredMixin, CreateView):
-    model = Notification
-    form_class = MedsReminderForm
-    template_name = 'meds/add_reminder.html'
-    success_url = reverse_lazy('info_meds')
-
-    def form_valid(self, form):
-        return super().form_valid(form)
-
 def mark_taken(request, medicine_id):
     medicine = Medicine.objects.get(id=medicine_id)
     if request.method == 'POST':
@@ -408,6 +373,7 @@ class DailyRoutineCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('routine_list')
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 class DailyRoutineUpdate(LoginRequiredMixin, UpdateView):
@@ -432,3 +398,7 @@ def mark_undone(request, pk):
     routine.is_finished = False
     routine.save()
     return redirect('routine_list')
+
+def routine_list(request):
+    routines = DailyRoutine.objects.filter(user=request.user)
+    return render(request, 'routine/routine_list.html', {'routines': routines})
