@@ -86,7 +86,6 @@ class Mood(models.Model):
     description = models.CharField(max_length=200, default='Hello world')
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
@@ -117,11 +116,12 @@ class Task(models.Model):
             return "In progress"
 
 class Medicine(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     amount = models.PositiveIntegerField(default=1)
     dose = models.PositiveIntegerField(default=1)
+    reminders = models.ManyToManyField('MedsReminders')
     
     def __str__(self):
         return self.name
@@ -130,9 +130,22 @@ class Medicine(models.Model):
         if self.amount >= self.dose:
             self.amount -= self.dose
             self.save()
+        
+class MedsReminders(models.Model):
+    name = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.medicine.name} - {self.time}"
+    
+#https://stackoverflow.com/questions/72264677/how-can-i-implement-notifications-system-in-django
+class Notification(models.Model):
+    is_read = models.BooleanField(default=False)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    time = models.TimeField()
 
 class DailyRoutine(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     is_finished = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
