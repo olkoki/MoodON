@@ -65,13 +65,13 @@ urlpatterns = [
     path('to-do/task/<int:pk>/unfinish/', views.unfinish_task, name='unfinish_task'),
     #path('to-do/', views.info_tasks, name='info_tasks'),
 
-    path('daily-routine/', views.DailyRoutineList.as_view(), name='routine_list'),
+    #path('daily-routine/', views.DailyRoutineList.as_view(), name='routine_list'),
     path('daily-routine/add/', views.DailyRoutineCreate.as_view(), name='routine_add'),
     path('daily-routine/update/<int:pk>/', views.DailyRoutineUpdate.as_view(), name='routine_update'),
     path('daily-routine/<int:pk>/delete/', views.DailyRoutineDelete.as_view(), name='routine_delete'),
     path('daily-routine/<int:pk>/finish/', views.mark_as_done, name='finish_routine'),
     path('daily-routine/<int:pk>/unfinish/', views.mark_undone, name='unfinish_routine'),
-    #path('daily-routine/', views.routine_list, name='routine_list'),
+    path('daily-routine/', views.routine_list, name='routine_list'),
 
     path('psychoeducation/', TemplateView.as_view(template_name='edu/edu_main.html'), name='edu'),
 ]

@@ -269,8 +269,8 @@
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
-                                        {% if all_routine %}
-                                        {% for routine in all_routine %}
+                                        
+                                        {% for routine in routines %}
                                         <tbody>
                                         <tr>
                                             <th scope="row">{{ forloop.counter }}</th>
@@ -312,7 +312,7 @@
                                         </tr>
                                         </tbody>
                                         {% endfor %}
-                                        {% endif %}
+                                        
                                     </table>
                                 </div>
                             </div>
